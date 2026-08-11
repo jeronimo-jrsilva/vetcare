@@ -1,0 +1,27 @@
+/* 
+  Adicione seus estilos personalizados abaixo.
+  
+  💡 DICA DE ESTILIZAÇÃO (Classless CSS):
+  Se não quiser escrever CSS do zero, você pode importar um framework sem classe 
+  no <head> do seu HTML para estilizar tudo automaticamente.
+  
+  Opções sugeridas (veja mais detalhes no README.md do projeto):
+  
+  1. Simple.css:
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simpledotcss/simple.min.css">
+     
+  2. Water.css:
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+     
+  3. MVP.css:
+     <link rel="stylesheet" href="https://unpkg.com/@andybrewer/mvp/mvp.css">
+     
+  4. Pico.css:
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+*/
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  line-height: 1.6;
+}

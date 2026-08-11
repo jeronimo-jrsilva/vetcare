@@ -1,0 +1,2 @@
+-- Script de Criação do Banco de Dados
+-- (Coloque aqui os comandos CREATE TABLE das tabelas tutores, pets e consulta)
