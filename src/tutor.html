@@ -10,7 +10,7 @@
     h1 { color: #f4f4f4; }
     label { display: block; margin-top: 15px; font-weight: bold; }
     input { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
-    button { margin-top: 20px; padding: 10px 20px; background: #747df7; color: white; border: none; cursor: pointer; }
+    button { margin-top: 20px; padding: 10px 20px; background: #f8f8f9; color: white; border: none; cursor: pointer; }
     ul { margin-top: 30px; padding-left: 20px; }
     li { margin-bottom: 8px; }
   </style>
@@ -32,7 +32,10 @@
 
     <label for="cpf">CPF do tutor:</label>
     <input type="text" id="cpf" required>
-
+    
+    <label for="endereco">Endereço do tutor:</label>
+    <input type="text" id="endereco" required>
+    
     <label for="petNome">Nome do pet:</label>
     <input type="text" id="petNome" required>
 
@@ -42,9 +45,6 @@
     <button type="submit">Cadastrar</button>
     
   </form>
-
-  <h2>Tutores cadastrados</h2>
-  <ul id="lista"></ul>
 
   <script src="tutor_renderer.js"></script>
 </body>
