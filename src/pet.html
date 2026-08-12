@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VetCare - Gestão de Pets</title>
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"> -->
+ <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simpledotcss/simple.min.css"> -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,15 +15,16 @@
   <h2>Insira informações do pet:</h2>
   <form id="form-pet">
     <div>
-      <input type = "text" id="nome" placeholder="Pet" required>
-      <input type = "text" id="Raça" placeholder="Raça" required>
-      <input type = "text" id="Gênero" placeholder="Gênero" required>
+      <label for="nome">Nome do pet:</label>
+      <input type = "text" id="nome"  required>
+      <label for="nome">Raça do pet:</label>
+      <input type = "text" id="Raça" required>
+      <label for="nome">Gênero do pet:</label>
+      <input type = "text" id="Gênero" required>
       <h4>Data de nascimento:</h4>
       <input type = "date" id="Data de nascimento" placeholder="Data de nascimento" required>
-      <h4>Se sim, descreva:</h4>
-      <input type = "text" id="Alergia" placeholder="Alergia" required>
       <h4>Observações:</h4>
-      <input type = "text" id="observação" placeholder="" required>
+      <input type = "text" id="observação" placeholder="Alergias, Cirurgias, etc..." required>
     </div>
     <button type="submit">Cadastrar</button>
   </form>
