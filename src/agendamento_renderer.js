@@ -1,9 +1,9 @@
 console.log("Agendamento Renderer Carregado!");
 
-const formAgendamento = document.getElementById('form-agendamento');
-const selectTutor = document.getElementById('tutor');
-const selectPet = document.getElementById('pet');
-const listaAgendamentos = document.getElementById('lista-agendamentos');
+const formAgendamento = document.querySelector('#form-agendamento');
+const selectTutor = document.querySelector('#tutor');
+const selectPet = document.querySelector('#pet');
+const listaAgendamentos = document.querySelector('#lista-agendamentos');
 
 // Preenche o <select> de tutores
 async function carregarTutores() {
@@ -23,29 +23,29 @@ async function carregarPets() {
 
 // Lista as consultas já agendadas
 async function carregarAgendamentos() {
-  const agendamentos = await window.api.listarAgendamentos();
-  listaAgendamentos.innerHTML = agendamentos
-    .map(a => `
+  const consultas = await window.api.listarAgendamentos();
+  listaAgendamentos.innerHTML = consultas
+    .map(c => `
       <li>
-        📅 ${a.data} às ${a.horario} — 🐾 ${a.pet_nome} (tutor: ${a.tutor_nome})
-        — Vet: ${a.veterinario} ${a.motivo ? `— Motivo: ${a.motivo}` : ''}
-        <button data-id="${a.id}" class="btn-excluir">Excluir</button>
+        📅 ${c.dia} às ${c.Horario} — 🐾 ${c.pet_nome} (tutor: ${c.tutor_nome})
+        ${c.sintoma ? `— Sintoma: ${c.sintoma}` : ''}
+        ${c.diagnostico ? `— Diagnóstico: ${c.diagnostico}` : ''}
+        <button data-id="${c.id_consulta}" class="btn-excluir">Excluir</button>
       </li>
     `)
     .join('');
 }
 
-// Envio do formulário (criação de novo agendamento)
+// Envio do formulário (criação de nova consulta)
 formAgendamento.addEventListener('submit', async (event) => {
   event.preventDefault();
 
   const dados = {
-    data: document.getElementById('data').value,
-    horario: document.getElementById('horario').value,
-    veterinario: document.getElementById('veterinario').value,
-    motivo: document.getElementById('motivo').value,
-    tutor_id: Number(selectTutor.value),
-    pet_id: Number(selectPet.value),
+    dia: document.querySelector('#data').value,
+    Horario: document.querySelector('#horario').value,
+    sintoma: document.querySelector('#sintoma').value,
+    id_tutor: Number(selectTutor.value),
+    id_pet: Number(selectPet.value),
   };
 
   await window.api.criarAgendamento(dados);
