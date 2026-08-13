@@ -5,45 +5,272 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VetCare - Gestão de Tutores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; max-width: 500px; margin: 40px auto; padding: 0 20px; }
-    h1 { color: #f4f4f4; }
-    label { display: block; margin-top: 15px; font-weight: bold; }
-    input { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
-    button { margin-top: 20px; padding: 10px 20px; background: #f8f8f9; color: white; border: none; cursor: pointer; }
-    ul { margin-top: 30px; padding-left: 20px; }
-    li { margin-bottom: 8px; }
+    :root {
+      --bg: #0f1613;
+      --bg-glow: radial-gradient(60% 50% at 50% -10%, rgba(226,166,64,0.10), transparent 70%);
+      --surface: #17211d;
+      --surface-2: #1c2723;
+      --border: #2b3a34;
+      --text: #eef2ef;
+      --muted: #93a49c;
+      --accent: #e2a640;
+      --accent-soft: rgba(226,166,64,0.14);
+      --sage: #6fae8e;
+      --error: #d97757;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      background-image: var(--bg-glow);
+      color: var(--text);
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 56px 20px 80px;
+      line-height: 1.5;
+    }
+
+    a.back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    a.back:hover { color: var(--accent); }
+
+    header {
+      margin: 28px 0 34px;
+      position: relative;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sage);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .eyebrow::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
+    }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: 2.1rem;
+      letter-spacing: -0.01em;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    h1 .paw {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+
+    p.sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 8px;
+    }
+
+    form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 26px 30px;
+      position: relative;
+      box-shadow: 0 24px 60px -30px rgba(0,0,0,0.6);
+    }
+
+    form::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px dashed rgba(255,255,255,0.06);
+      border-radius: calc(var(--radius) - 4px);
+      pointer-events: none;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 30px 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label:first-of-type { margin-top: 2px; }
+    .section-label .tag {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 5px;
+      padding: 2px 7px;
+      font-size: 0.68rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 16px;
+      font-weight: 500;
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    input {
+      width: 100%;
+      margin-top: 6px;
+      padding: 11px 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    input::placeholder { color: #5c6b64; }
+    input:hover { border-color: #3a4b44; }
+
+    input:focus-visible {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+      background: #1a2521;
+    }
+
+    input:invalid:not(:placeholder-shown) {
+      border-color: var(--error);
+    }
+
+    button {
+      width: 100%;
+      margin-top: 30px;
+      padding: 13px 20px;
+      background: var(--accent);
+      color: #201304;
+      border: none;
+      border-radius: 9px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.96rem;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    button:hover {
+      background: #edb457;
+      box-shadow: 0 10px 24px -10px rgba(214, 180, 122, 0.55);
+      transform: translateY(-1px);
+    }
+
+    button:active { transform: translateY(0); }
+
+    button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    ul {
+      margin-top: 34px;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--sage);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 36px 16px 60px; }
+      h1 { font-size: 1.7rem; }
+      form { padding: 22px 18px 26px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
   </style>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <a class="back" href="index.html">← Voltar ao menu</a>
+
+  <header>
+    <div class="eyebrow">Ficha de cadastro</div>
+    <h1>
+      <svg class="paw" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <ellipse cx="12" cy="15.5" rx="5.2" ry="4.6"/>
+        <ellipse cx="5.2" cy="9.5" rx="2.1" ry="2.7"/>
+        <ellipse cx="18.8" cy="9.5" rx="2.1" ry="2.7"/>
+        <ellipse cx="8.7" cy="5.6" rx="1.8" ry="2.3"/>
+        <ellipse cx="15.3" cy="5.6" rx="1.8" ry="2.3"/>
+      </svg>
+      Cadastro de Tutores
+    </h1>
+    <p class="sub">Preencha os dados do tutor e do pet para abrir o prontuário na VetCare.</p>
+  </header>
+
   <!-- Desenvolva o formulário de cadastro de tutor abaixo -->
-  <a href="index.html">⬅️ Voltar ao Menu</a>
-  <h1>👤 Cadastro de Tutores</h1>
- <form id="form-tutor">
-    <label for="nome">Nome completo do tutor:</label>
-    <input type="text" id="nome" required>
+  <form id="form-tutor">
+    <div class="section-label"><span class="tag">01</span> Dados do tutor</div>
 
-    <label for="telefone">Número de telefone do tutor:</label>
-    <input type="text" id="telefone" required>
+    <label for="nome">Nome completo do tutor</label>
+    <input type="text" id="nome" placeholder="Ex: Ana Beatriz Souza" required>
 
-    <label for="email">Email do tutor:</label>
-    <input type="email" id="email" required>
+    <label for="telefone">Número de telefone do tutor</label>
+    <input type="text" id="telefone" placeholder="(00) 00000-0000" required>
 
-    <label for="cpf">CPF do tutor:</label>
-    <input type="text" id="cpf" required>
-    
-    <label for="endereco">Endereço do tutor:</label>
-    <input type="text" id="endereco" required>
-    
-    <label for="petNome">Nome do pet:</label>
-    <input type="text" id="petNome" required>
+    <label for="email">Email do tutor</label>
+    <input type="email" id="email" placeholder="nome@email.com" required>
 
-    <label for="petIdade">Idade do pet:</label>
-    <input type="number" id="petIdade" required>
+    <label for="cpf">CPF do tutor</label>
+    <input type="text" id="cpf" placeholder="000.000.000-00" required>
 
-    <button type="submit">Cadastrar</button>
-    
+    <label for="endereco">Endereço do tutor</label>
+    <input type="text" id="endereco" placeholder="Rua, número, bairro, cidade" required>
+
+    <div class="section-label"><span class="tag">02</span> Dados do pet</div>
+
+    <label for="petNome">Nome do pet</label>
+    <input type="text" id="petNome" placeholder="Ex: Thor" required>
+
+    <label for="petIdade">Idade do pet</label>
+    <input type="number" id="petIdade" placeholder="Em anos" min="0" required>
+
+    <button type="submit">Cadastrar tutor</button>
   </form>
 
   <script src="tutor_renderer.js"></script>
