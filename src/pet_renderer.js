@@ -6,3 +6,4 @@ const inputraca = document.getElementById('raca');
 const inputgenero = document.getElementById('genero');
 const inputDatadenascimento = document.getElementById('Datadenascimento');
 const inputobservacao = document.getElementById('observacao');
+
