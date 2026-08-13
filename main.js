@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, ipcRenderer } = require('electron');
 const path = require('path');
 const db = require('./database/conexao'); // Garante que a conexão com o banco é carregada
 
@@ -31,3 +31,4 @@ app.on('window-all-closed', () => {
 // ==========================================
 // CANAIS IPC (A serem criados pelos alunos)
 // ==========================================
+
