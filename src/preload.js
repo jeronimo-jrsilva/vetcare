@@ -4,4 +4,6 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('api', {
   // Exemplo:
   // enviarDados: (dados) => ipcRenderer.invoke('canal-exemplo', dados)
+  petNome: (petNome) => ipcRenderer.invoke('canal-exemplo', nome)
+  
 });
