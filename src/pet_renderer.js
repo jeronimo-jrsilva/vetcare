@@ -4,7 +4,7 @@ const formcad_pet = document.querySelector('form-cad_pet');
 const inputnome = document.querySelector('nome');
 const inputraca = document.querySelector('raca');
 const inputgenero = document.querySelector('genero');
-const inputDatadenascimento =querySelector document.('Datadenascimento');
+const inputDatadenascimento =document.querySelector('Datadenascimento');
 const inputobservacao = document.querySelector('observacao');
 
 formContato.addEventListener('submit', async (e) => {
