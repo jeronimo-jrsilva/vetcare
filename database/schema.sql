@@ -1,6 +1,24 @@
 -- Script de Criação do Banco de Dados
 -- (Coloque aqui os comandos CREATE TABLE das tabelas tutores, pets e consulta)
 
+CREATE TABLE IF NOT EXISTS "Tutor" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nome" TEXT NOT NULL,
+    "telefone" TEXT,
+    "email" TEXT,
+    "cpf" TEXT,
+    "endereco" TEXT
+);
+
+CREATE TABLE IF NOT EXISTS "Pet" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nome" TEXT NOT NULL,
+    "raca" TEXT,
+    "genero" TEXT,
+    "data_nascimento" TEXT,
+    "observacoes" TEXT
+);
+
 CREATE TABLE IF NOT EXISTS "Consulta" (
 	"id_consulta" INTEGER PRIMARY KEY AUTOINCREMENT,
 	"id_tutor" INTEGER NOT NULL,
