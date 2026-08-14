@@ -10,8 +10,8 @@ const inputObservacao = document.querySelector('#observacao');
 formCad_pet.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const nome = inputNome.value.trim();
-  const reca = inputEmail.value.trim();
+  const petNome = inputNome.value.trim();
+  const raca = inputEmail.value.trim();
   const genero = inputFoto.value.trim();
   const Datadenascimento = inputTelefone.value.trim();
   const observacao = inputobservacao.value.trim();
