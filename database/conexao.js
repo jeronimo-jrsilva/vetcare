@@ -6,7 +6,7 @@ const fs = require('fs');
 const dbPath = path.join(__dirname, '..', 'vetcare.db');
 
 // Conexão com o banco (cria o arquivo caso não exista)
-const db = new Database(dbPath, { verbose: console.log });
+const db = new Database(dbPath);
 
 // Inicialização automática das tabelas a partir do schema.sql
 const schemaPath = path.join(__dirname, 'schema.sql');
