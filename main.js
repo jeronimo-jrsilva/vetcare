@@ -94,12 +94,13 @@ ipcMain.handle('listar-pets', () => {
 ipcMain.handle('cadastrar-pet', (event, pet) => {
   try {
     const stmt = db.prepare(`
-      INSERT INTO Pet (nome, raca, genero, data_nascimento, observacoes, id_tutor)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO Pet (nome, especie, raca, genero, data_nascimento, observacoes, id_tutor)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `);
     const result = stmt.run(
       pet.nome || '',
-      pet.raca || '',
+      pet.especie || 'Cachorro',
+      pet.raca || 'SRD',
       pet.genero || '',
       pet.data_nascimento || '',
       pet.observacoes || '',

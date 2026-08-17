@@ -2,11 +2,12 @@ console.log("Pet Renderer Carregado!");
 
 const formPet = document.querySelector('#form-pet');
 const selectTutor = document.querySelector('#tutor');
-const inputNome = document.querySelector('#Nome');
-const inputRaca = document.querySelector('#Raca');
-const inputGenero = document.querySelector('#Genero');
-const inputDataNascimento = document.querySelector('#Datadenascimento');
-const inputObservacao = document.querySelector('#Observacao');
+const inputNome = document.querySelector('#nome');
+const selectEspecie = document.querySelector('#especie');
+const inputRaca = document.querySelector('#raca');
+const selectGenero = document.querySelector('#genero');
+const inputDataNascimento = document.querySelector('#data_nascimento');
+const inputObservacao = document.querySelector('#observacoes');
 const listaPets = document.querySelector('#lista');
 
 // Carregar tutores no select
@@ -34,7 +35,7 @@ async function carregarPets() {
     listaPets.innerHTML = pets
       .map(p => `
         <li>
-          <strong>🐾 ${p.nome}</strong> (${p.raca || 'SRD'} - ${p.genero || 'N/I'})<br>
+          <strong>🐾 ${p.nome}</strong> — ${p.especie || 'Pet'} (${p.raca || 'SRD'} • ${p.genero || 'N/I'})<br>
           <small>👤 Tutor: ${p.tutor_nome || 'Sem tutor vinculado'}</small><br>
           <small>🎂 Nasc: ${p.data_nascimento || 'Não informado'} | 📝 Obs: ${p.observacoes || 'Nenhuma'}</small>
         </li>
@@ -51,8 +52,9 @@ formPet?.addEventListener('submit', async (e) => {
 
   const dadosPet = {
     nome: inputNome.value.trim(),
+    especie: selectEspecie.value,
     raca: inputRaca.value.trim(),
-    genero: inputGenero.value,
+    genero: selectGenero.value,
     data_nascimento: inputDataNascimento.value,
     observacoes: inputObservacao.value.trim(),
     id_tutor: selectTutor.value ? Number(selectTutor.value) : null

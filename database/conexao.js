@@ -15,4 +15,15 @@ if (fs.existsSync(schemaPath)) {
   db.exec(schemaSql);
 }
 
+// Garante que a coluna especie exista em bancos pré-existentes
+try {
+  const colunas = db.prepare("PRAGMA table_info(Pet)").all();
+  const temEspecie = colunas.some(col => col.name === 'especie');
+  if (!temEspecie && colunas.length > 0) {
+    db.exec("ALTER TABLE Pet ADD COLUMN especie TEXT DEFAULT 'Cachorro'");
+  }
+} catch (err) {
+  console.error("Erro na verificação de colunas:", err.message);
+}
+
 module.exports = db;

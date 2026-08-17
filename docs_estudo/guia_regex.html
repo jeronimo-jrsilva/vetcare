@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Guia Rápido: Expressões Regulares (Regex) para Validação de Formulários</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 15mm 15mm 15mm 15mm;
+      @bottom-center {
+        content: "Página " counter(page) " de " counter(pages);
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 8pt;
+        color: #718096;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      color: #1a202c;
+      line-height: 1.5;
+      font-size: 10pt;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      border-bottom: 2px solid #805ad5;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+    .badge {
+      display: inline-block;
+      background: #faf5ff;
+      color: #6b46c1;
+      font-size: 8pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+    h1 {
+      font-size: 17pt;
+      color: #553c9a;
+      margin: 2px 0 4px 0;
+      font-weight: 700;
+    }
+    p.lead {
+      font-size: 10.5pt;
+      color: #4a5568;
+      margin: 0;
+    }
+    h2 {
+      font-size: 11.5pt;
+      color: #2d3748;
+      border-left: 4px solid #805ad5;
+      padding-left: 8px;
+      margin: 16px 0 8px 0;
+    }
+    h3 {
+      font-size: 10.5pt;
+      color: #6b46c1;
+      margin: 12px 0 4px 0;
+    }
+    p { margin: 6px 0; }
+    .box {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin: 10px 0;
+    }
+    .box-warn {
+      background: #fffaf0;
+      border: 1px solid #fbd38d;
+      border-left: 4px solid #dd6b20;
+    }
+    .box-tool {
+      background: #faf5ff;
+      border: 1px solid #d6bcfa;
+      border-left: 4px solid #805ad5;
+    }
+    pre {
+      background: #1a202c;
+      color: #edf2f7;
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 9pt;
+      line-height: 1.4;
+      margin: 8px 0;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    code {
+      font-family: 'Consolas', 'Courier New', monospace;
+      background: #edf2f7;
+      color: #805ad5;
+      font-weight: 600;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 9.5pt;
+    }
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      font-weight: normal;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 9pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e0;
+      padding: 6px 10px;
+      text-align: left;
+    }
+    th {
+      background: #faf5ff;
+      color: #44337a;
+      font-weight: 600;
+    }
+    a {
+      color: #6b46c1;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">SENAC • Programação de Sistemas</div>
+    <h1>🔍 Guia Rápido: Expressões Regulares (Regex)</h1>
+    <p class="lead">Referência teórica e prática para validação de campos de formulário em JavaScript.</p>
+  </header>
+
+  <h2>1. O que é uma Expressão Regular (Regex)?</h2>
+  <p>Uma <strong>Expressão Regular (Regex)</strong> é um padrão de texto usado para verificar se o valor digitado pelo usuário em um formulário segue um formato esperado (por exemplo: <em>"conter exatamente 11 dígitos"</em> ou <em>"conter um número com DDD válido"</em>).</p>
+  <p>Em JavaScript, declaramos uma Regex entre barras:</p>
+  <pre><code>const padraoCpf = /^\d{11}$/;</code></pre>
+
+  <h2>2. Tabela de Símbolos Essenciais (Cheat-Sheet)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 20%;">Símbolo</th>
+        <th style="width: 40%;">Significado</th>
+        <th>Exemplo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>\d</code></td>
+        <td>Qualquer <strong>dígito numérico</strong> (0 a 9)</td>
+        <td><code>/\d/</code> (encontra qualquer número)</td>
+      </tr>
+      <tr>
+        <td><code>\D</code></td>
+        <td>Qualquer caractere que <strong>NÃO</strong> é número</td>
+        <td><code>/\D/</code> (letras, símbolos, espaços)</td>
+      </tr>
+      <tr>
+        <td><code>^</code> (Início)</td>
+        <td>O texto precisa <strong>começar</strong> aqui</td>
+        <td><code>/^\d/</code> (começa com número)</td>
+      </tr>
+      <tr>
+        <td><code>$</code> (Fim)</td>
+        <td>O texto precisa <strong>terminar</strong> aqui</td>
+        <td><code>/\d$/</code> (termina com número)</td>
+      </tr>
+      <tr>
+        <td><code>{n}</code></td>
+        <td>Exatamente <strong>n</strong> repetições</td>
+        <td><code>/\d{11}/</code> (exatamente 11 números)</td>
+      </tr>
+      <tr>
+        <td><code>{min,max}</code></td>
+        <td>Intervalo de repetições</td>
+        <td><code>/\d{10,11}/</code> (entre 10 e 11 números)</td>
+      </tr>
+      <tr>
+        <td><code>\</code> (Escape)</td>
+        <td>Anula o superpoder de um caractere especial</td>
+        <td><code>/\./</code> (procura o ponto literal <code>.</code>)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3. ⚠️ O que é o "Escape" (a barra invertida <code>\</code>)?</h2>
+  <div class="box box-warn">
+    <p>Em Regex, alguns símbolos possuem significados especiais no motor de busca (por exemplo, o ponto <code>.</code> sozinho significa <em>"qualquer caractere existente"</em>).</p>
+    <p>Se você precisar buscar um caractere especial de forma literal (como um ponto final ou parêntese), você deve usar a barra invertida <code>\</code> antes dele para <strong>escapar</strong> o seu efeito:</p>
+    <ul>
+      <li><code>\.</code> ➔ Procura exatamente o caractere ponto final (<code>.</code>).</li>
+      <li><code>\(</code> e <code>\)</code> ➔ Procura os caracteres parênteses literais (<code>(</code> e <code>)</code>).</li>
+      <li><code>\-</code> ➔ Procura o caractere traço literal (<code>-</code>).</li>
+    </ul>
+  </div>
+
+  <h2>4. Como Validar no JavaScript: O Método <code>regex.test(valor)</code></h2>
+  <p>O método <code>.test()</code> recebe o texto digitado e retorna um valor booleano: <code>true</code> (se o texto atende ao padrão) ou <code>false</code> (se não atende):</p>
+  <pre><code>const regexCpf = /^\d{11}$/;
+
+// Testes de validação:
+console.log(regexCpf.test("12345678901")); // Retorna true (11 dígitos válidos)
+console.log(regexCpf.test("12345"));       // Retorna false (apenas 5 dígitos)
+console.log(regexCpf.test("1234567890A")); // Retorna false (contém letra)</code></pre>
+
+  <h2>5. 📋 Exemplos de Padrões para Validação</h2>
+
+  <h3>A. CPF (Apenas 11 dígitos numéricos)</h3>
+  <pre><code>// Inicia com dígito (^), exige exatamente 11 números ({11}) e finaliza ($)
+const regexCpf = /^\d{11}$/;</code></pre>
+
+  <h3>B. Telefone com DDD (10 ou 11 dígitos numéricos)</h3>
+  <p>No Brasil, telefones fixos têm 10 dígitos (DDD + 8 números) e celulares têm 11 dígitos (DDD + 9 números):</p>
+  <pre><code>// Inicia com dígito (^), aceita de 10 a 11 números ({10,11}) e finaliza ($)
+// Exemplos aceitos: 85988887777 (celular) ou 8533334444 (fixo)
+const regexTelefone = /^\d{10,11}$/;</code></pre>
+
+  <h3>C. E-mail (Formato básico: texto@texto.texto)</h3>
+  <pre><code>const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;</code></pre>
+
+  <h2>6. 🛠️ Ferramentas Online para Testes</h2>
+  <div class="box box-tool">
+    <ul>
+      <li>
+        <strong><a href="https://regex101.com/">Regex101 (regex101.com)</a></strong>: Testador interativo que explica cada parte da sua Regex em tempo real.
+      </li>
+      <li style="margin-top: 6px;">
+        <strong><a href="https://regexr.com/">RegExr (regexr.com)</a></strong>: Editor visual com cheat-sheet e testes instantâneos.
+      </li>
+    </ul>
+  </div>
+
+</body>
+</html>

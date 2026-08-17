@@ -32,7 +32,7 @@ async function carregarPets() {
       return;
     }
     selectPet.innerHTML = pets
-      .map(p => `<option value="${p.id}">${p.nome} (${p.raca || 'SRD'})</option>`)
+      .map(p => `<option value="${p.id}">${p.nome} (${p.especie || 'Pet'} • ${p.raca || 'SRD'})</option>`)
       .join('');
   } catch (err) {
     console.error("Erro ao carregar pets:", err);

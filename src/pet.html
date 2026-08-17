@@ -23,23 +23,32 @@
       <option value="">Selecione um tutor (opcional)...</option>
     </select>
 
-    <label for="Nome">Nome do Pet:</label>
-    <input type="text" id="Nome" placeholder="Ex: Mel" required>
+    <label for="nome">Nome do Pet:</label>
+    <input type="text" id="nome" placeholder="Ex: Mel" required>
 
-    <label for="Raca">Raça do Pet:</label>
-    <input type="text" id="Raca" placeholder="Ex: Poodle, SRD, Siamês..." required>
+    <label for="especie">Espécie do Pet:</label>
+    <select id="especie" required>
+      <option value="Cachorro">🐶 Cachorro</option>
+      <option value="Gato">🐱 Gato</option>
+      <option value="Pássaro">🦜 Pássaro</option>
+      <option value="Coelho">🐰 Coelho</option>
+      <option value="Outro">🐾 Outro</option>
+    </select>
 
-    <label for="Genero">Gênero do Pet:</label>
-    <select id="Genero" required>
+    <label for="raca">Raça do Pet:</label>
+    <input type="text" id="raca" placeholder="Ex: Poodle, Siamês, SRD (Vira-lata)..." required>
+
+    <label for="genero">Gênero do Pet:</label>
+    <select id="genero" required>
       <option value="Macho">Macho</option>
       <option value="Fêmea">Fêmea</option>
     </select>
 
-    <label for="Datadenascimento">Data de Nascimento (aproximada):</label>
-    <input type="date" id="Datadenascimento">
+    <label for="data_nascimento">Data de Nascimento (aproximada):</label>
+    <input type="date" id="data_nascimento">
 
-    <label for="Observacao">Observações (Alergias, Cuidados, etc.):</label>
-    <input type="text" id="Observacao" placeholder="Ex: Alérgico a dipirona">
+    <label for="observacoes">Observações (Alergias, Cuidados, etc.):</label>
+    <input type="text" id="observacoes" placeholder="Ex: Alérgico a dipirona">
 
     <button type="submit">Cadastrar Pet</button>
   </form>

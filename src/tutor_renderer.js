@@ -50,7 +50,8 @@ formTutor?.addEventListener('submit', async (e) => {
       if (petNome) {
         await window.api.cadastrarPet({
           nome: petNome,
-          raca: 'Não especificada',
+          especie: 'Cachorro',
+          raca: 'SRD',
           genero: 'Não especificado',
           data_nascimento: '',
           observacoes: petIdade ? `Idade inicial informada: ${petIdade} anos` : '',

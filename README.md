@@ -64,6 +64,8 @@ vetcare/
 ├── database/
 │   ├── conexao.js          # Conexão SQLite e auto-criação de tabelas
 │   └── schema.sql           # Script DDL com a modelagem relacional
+├── docs_estudo/
+│   └── guia_expressoes_regulares_regex.pdf # Guia prático de Regex para validações
 ├── src/
 │   ├── index.html           # Menu principal e navegação
 │   ├── style.css            # Estilos compartilhados
@@ -87,7 +89,7 @@ vetcare/
 O banco relacional [`vetcare.db`] é auto-inicializado a partir do arquivo [`database/schema.sql`]:
 
 - **`Tutor`**: `id`, `nome`, `telefone`, `email`, `cpf`, `endereco`
-- **`Pet`**: `id`, `id_tutor` *(FK)*, `nome`, `raca`, `genero`, `data_nascimento`, `observacoes`
+- **`Pet`**: `id`, `id_tutor` *(FK)*, `nome`, `especie`, `raca`, `genero`, `data_nascimento`, `observacoes`
 - **`Consulta`**: `id_consulta`, `id_tutor` *(FK)*, `id_pet` *(FK)*, `dia`, `Horario`, `sintoma`, `diagnostico`
 
 ---
@@ -99,7 +101,12 @@ O banco relacional [`vetcare.db`] é auto-inicializado a partir do arquivo [`dat
 | `window.api.listarTutores()` | *nenhum* | Retorna lista ordenada de todos os tutores cadastrados |
 | `window.api.cadastrarTutor(dados)` | `{ nome, telefone, email, cpf, endereco }` | Cadastra novo tutor e retorna `{ success, id }` |
 | `window.api.listarPets()` | *nenhum* | Retorna lista de pets com o nome do tutor associado via `JOIN` |
-| `window.api.cadastrarPet(dados)` | `{ nome, raca, genero, data_nascimento, observacoes, id_tutor }` | Cadastra novo pet vinculado ao tutor |
+| `window.api.cadastrarPet(dados)` | `{ nome, especie, raca, genero, data_nascimento, observacoes, id_tutor }` | Cadastra novo pet vinculado ao tutor |
 | `window.api.listarAgendamentos()` | *nenhum* | Retorna consultas agendadas com dados de tutor e pet cruzados |
 | `window.api.criarAgendamento(dados)` | `{ dia, Horario, sintoma, id_tutor, id_pet, diagnostico }` | Cria agendamento de consulta |
 | `window.api.excluirAgendamento(id)` | `id_consulta` | Exclui agendamento pelo ID da consulta |
+
+---
+
+## 📚 Material de Apoio e Estudo
+- 🔍 **Guia de Expressões Regulares (Regex):** Disponível em PDF na pasta [`docs_estudo/guia_expressoes_regulares_regex.pdf`](docs_estudo/guia_expressoes_regulares_regex.pdf) para consulta e apoio na validação de campos de formulário.
