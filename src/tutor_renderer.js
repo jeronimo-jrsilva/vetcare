@@ -40,7 +40,7 @@ formTutor?.addEventListener('submit', async (e) => {
   };
  const regexCpf = /^\d{11}$/;
  const regexTelefone = /^\d{10,11}$/;
- const regexCpf = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const petNome = document.querySelector('#petNome')?.value.trim();
   const petIdade = document.querySelector('#petIdade')?.value.trim();
