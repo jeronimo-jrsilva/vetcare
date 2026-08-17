@@ -38,6 +38,9 @@ formTutor?.addEventListener('submit', async (e) => {
     cpf: document.querySelector('#cpf').value.trim(),
     endereco: document.querySelector('#endereco').value.trim()
   };
+ const regexCpf = /^\d{11}$/;
+ const regexTelefone = /^\d{10,11}$/;
+ const regexCpf = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const petNome = document.querySelector('#petNome')?.value.trim();
   const petIdade = document.querySelector('#petIdade')?.value.trim();
