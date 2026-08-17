@@ -1,11 +1,11 @@
-const { app, BrowserWindow, ipcMain, ipcRenderer } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const db = require('./database/conexao'); // Garante que a conexão com o banco é carregada
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 900,
+    height: 700,
     webPreferences: {
       preload: path.join(__dirname, 'src', 'preload.js'),
       contextIsolation: true,
@@ -29,11 +29,10 @@ app.on('window-all-closed', () => {
 });
 
 // ==========================================
-// CANAIS IPC (A serem criados pelos alunos)
+// CANAIS IPC - TUTOR
 // ==========================================
 
-
-// Listar todos os tutores (preenche o <select>)
+// Listar todos os tutores
 ipcMain.handle('listar-tutores', () => {
   try {
     const stmt = db.prepare('SELECT * FROM Tutor ORDER BY nome ASC');
@@ -44,10 +43,40 @@ ipcMain.handle('listar-tutores', () => {
   }
 });
 
-// Listar todos os pets (preenche o <select>)
+// Cadastrar novo tutor
+ipcMain.handle('cadastrar-tutor', (event, tutor) => {
+  try {
+    const stmt = db.prepare(`
+      INSERT INTO Tutor (nome, telefone, email, cpf, endereco)
+      VALUES (?, ?, ?, ?, ?)
+    `);
+    const result = stmt.run(
+      tutor.nome || '',
+      tutor.telefone || '',
+      tutor.email || '',
+      tutor.cpf || '',
+      tutor.endereco || ''
+    );
+    return { success: true, id: result.lastInsertRowid };
+  } catch (error) {
+    console.error('Erro ao cadastrar tutor:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
+// ==========================================
+// CANAIS IPC - PET
+// ==========================================
+
+// Listar todos os pets
 ipcMain.handle('listar-pets', () => {
   try {
-    const stmt = db.prepare('SELECT * FROM Pet ORDER BY nome ASC');
+    const stmt = db.prepare(`
+      SELECT Pet.*, Tutor.nome AS tutor_nome 
+      FROM Pet 
+      LEFT JOIN Tutor ON Pet.id_tutor = Tutor.id 
+      ORDER BY Pet.nome ASC
+    `);
     return stmt.all();
   } catch (error) {
     console.error('Erro ao listar pets:', error.message);
@@ -55,7 +84,33 @@ ipcMain.handle('listar-pets', () => {
   }
 });
 
-// Listar agendamentos (consultas), trazendo nome do pet e do tutor via JOIN
+// Cadastrar novo pet
+ipcMain.handle('cadastrar-pet', (event, pet) => {
+  try {
+    const stmt = db.prepare(`
+      INSERT INTO Pet (nome, raca, genero, data_nascimento, observacoes, id_tutor)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `);
+    const result = stmt.run(
+      pet.nome || '',
+      pet.raca || '',
+      pet.genero || '',
+      pet.data_nascimento || '',
+      pet.observacoes || '',
+      pet.id_tutor || null
+    );
+    return { success: true, id: result.lastInsertRowid };
+  } catch (error) {
+    console.error('Erro ao cadastrar pet:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
+// ==========================================
+// CANAIS IPC - AGENDAMENTO (CONSULTA)
+// ==========================================
+
+// Listar agendamentos com JOIN
 ipcMain.handle('listar-agendamentos', () => {
   try {
     const stmt = db.prepare(`
@@ -79,14 +134,21 @@ ipcMain.handle('listar-agendamentos', () => {
   }
 });
 
-// Criar novo agendamento (consulta)
-ipcMain.handle('criar-agendamento', (event, { dia, Horario, sintoma, id_tutor, id_pet }) => {
+// Criar novo agendamento
+ipcMain.handle('criar-agendamento', (event, { dia, Horario, sintoma, id_tutor, id_pet, diagnostico }) => {
   try {
     const stmt = db.prepare(`
-      INSERT INTO Consulta (dia, Horario, sintoma, id_tutor, id_pet)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO Consulta (dia, Horario, sintoma, id_tutor, id_pet, diagnostico)
+      VALUES (?, ?, ?, ?, ?, ?)
     `);
-    const result = stmt.run(dia, Horario, sintoma, id_tutor, id_pet);
+    const result = stmt.run(
+      dia,
+      Horario,
+      sintoma || '',
+      id_tutor,
+      id_pet,
+      diagnostico || ''
+    );
     return { success: true, id: result.lastInsertRowid };
   } catch (error) {
     console.error('Erro ao criar agendamento:', error.message);

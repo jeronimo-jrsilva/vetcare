@@ -1,58 +1,72 @@
-// Lógica para cadastro de tutores e comunicação com o banco de dados
 console.log("Tutor Renderer Carregado!");
 
-<<<<<<< HEAD
-const form = document.querySelector('#form-tutor');
-const lista = document.querySelector('#lista');
-=======
-<<<<<<< HEAD
-const form = document.getElementById('form-tutor');
-const lista = document.getElementById('lista');
->>>>>>> 9f83ca7 (tutor rendere parte 1)
+const formTutor = document.querySelector('#form-tutor');
+const listaTutores = document.querySelector('#lista');
 
-form.addEventListener ('submit', function (e) {
-    e.preventDefault();
-});
+// Listar tutores na tela
+async function carregarTutores() {
+  if (!listaTutores) return;
+  try {
+    const tutores = await window.api.listarTutores();
+    if (!tutores || tutores.length === 0) {
+      listaTutores.innerHTML = '<li>Nenhum tutor cadastrado ainda.</li>';
+      return;
+    }
 
-const nome = document.querySelector('#nome').value;
-const nome = document.querySelector('#telefone').value;
-const nome = document.querySelector('#email').value;
-const nome = document.querySelector('#cpf').value;
-const nome = document.querySelector('endereco').value;
-const nome = document.querySelector('#petNome').value;
-const nome = document.querySelector('#petIdade').value;
-
-
-const item = document.createElement("li");
-  item.textContent = nome + " - " + telefone + " - " + email + " - " + cpf + " - Pet: " + petNome + " (" + petIdade + " anos)";
-
-  lista.appendChild(item);
-  form.reset();
-<<<<<<< HEAD
-
-
- 
-=======
-=======
-async function cadastrarTutor(dados) {
-  const resultado = await window.tutorAPI.cadastrar(dados);
-  if (resultado.sucesso) {
-    console.log('Tutor cadastrado! ID:', resultado.id);
-  } else {
-    console.error('Erro ao cadastrar:', resultado.erro);
+    listaTutores.innerHTML = tutores
+      .map(t => `
+        <li>
+          <strong>👤 ${t.nome}</strong><br>
+          <small>📞 ${t.telefone || 'Sem telefone'} | ✉️ ${t.email || 'Sem email'} | CPF: ${t.cpf || 'Não informado'}</small><br>
+          <small>📍 ${t.endereco || 'Endereço não informado'}</small>
+        </li>
+      `)
+      .join('');
+  } catch (err) {
+    console.error("Erro ao listar tutores:", err);
   }
-  return resultado;
 }
 
-document.getElementById('form-tutor')?.addEventListener('submit', async (e) => {
+// Submissão do cadastro de tutor (e pet associado se preenchido)
+formTutor?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const dados = {
-    nome: e.target.nome.value,
-    email: e.target.email.value,
-    telefone: e.target.telefone.value,
-    especialidade: e.target.especialidade.value,
+
+  const dadosTutor = {
+    nome: document.querySelector('#nome').value.trim(),
+    telefone: document.querySelector('#telefone').value.trim(),
+    email: document.querySelector('#email').value.trim(),
+    cpf: document.querySelector('#cpf').value.trim(),
+    endereco: document.querySelector('#endereco').value.trim()
   };
-  await cadastrarTutor(dados);
+
+  const petNome = document.querySelector('#petNome')?.value.trim();
+  const petIdade = document.querySelector('#petIdade')?.value.trim();
+
+  try {
+    const resultadoTutor = await window.api.cadastrarTutor(dadosTutor);
+    
+    if (resultadoTutor.success) {
+      // Se informou o pet junto, já cadastra associando o id_tutor
+      if (petNome) {
+        await window.api.cadastrarPet({
+          nome: petNome,
+          raca: 'Não especificada',
+          genero: 'Não especificado',
+          data_nascimento: '',
+          observacoes: petIdade ? `Idade inicial informada: ${petIdade} anos` : '',
+          id_tutor: resultadoTutor.id
+        });
+      }
+
+      formTutor.reset();
+      await carregarTutores();
+    } else {
+      alert("Erro ao cadastrar tutor: " + resultadoTutor.error);
+    }
+  } catch (err) {
+    console.error("Erro no cadastro:", err);
+  }
 });
->>>>>>> 19b1d8e (tutor rendere parte 1)
->>>>>>> 9f83ca7 (tutor rendere parte 1)
+
+// Inicialização
+carregarTutores();

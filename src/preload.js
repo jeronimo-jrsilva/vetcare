@@ -1,12 +1,17 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
-// Use a contextBridge para expor funções seguras de IPC para o renderer.js
+// Exposição segura de IPC para os scripts de renderização (renderers)
 contextBridge.exposeInMainWorld('api', {
-  // Exemplo:
-  // enviarDados: (dados) => ipcRenderer.invoke('canal-exemplo', dados)
-  petNome: (petNome) => ipcRenderer.invoke('canal-exemplo', nome)
-  raca: (raca) => ipcRenderer.invoke('canal-exemplo', raca)
-  genero: (genero) => ipcRenderer.invoke('canal-exemplo', genero)
-  Datadenascimento: (Datadenascimento) => ipcRenderer.invoke('canal-exemplo', nascimento)
-  Observacao: (observacao) => ipcRenderer.invoke('canal-exemplo', observacao)
+  // Tutores
+  listarTutores: () => ipcRenderer.invoke('listar-tutores'),
+  cadastrarTutor: (dados) => ipcRenderer.invoke('cadastrar-tutor', dados),
+
+  // Pets
+  listarPets: () => ipcRenderer.invoke('listar-pets'),
+  cadastrarPet: (dados) => ipcRenderer.invoke('cadastrar-pet', dados),
+
+  // Agendamentos
+  listarAgendamentos: () => ipcRenderer.invoke('listar-agendamentos'),
+  criarAgendamento: (dados) => ipcRenderer.invoke('criar-agendamento', dados),
+  excluirAgendamento: (id) => ipcRenderer.invoke('excluir-agendamento', id)
 });
