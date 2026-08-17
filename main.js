@@ -2,21 +2,12 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const db = require('./database/conexao');
 
-// Diretório de dados isolado para evitar conflitos de cache no Windows
-app.setPath('userData', path.join(__dirname, '.userData'));
-
-app.disableHardwareAcceleration();
-
-let mainWindow = null;
+let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
     height: 700,
-    show: true,
-    center: true,
-    backgroundColor: '#121212',
-    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'src', 'preload.js'),
       contextIsolation: true,
@@ -26,40 +17,10 @@ function createWindow() {
 
   mainWindow.loadFile(path.join(__dirname, 'src', 'index.html'));
 
-  mainWindow.once('ready-to-show', () => {
-    console.log('Janela pronta para exibição (ready-to-show)');
-    mainWindow.show();
-    mainWindow.focus();
-  });
-
-  mainWindow.webContents.on('did-finish-load', () => {
-    console.log('HTML carregado com sucesso no renderer');
-  });
-
-  mainWindow.webContents.on('render-process-gone', (event, details) => {
-    console.error('Render process finalizado inesperadamente:', details);
-  });
-
-  mainWindow.on('close', (event) => {
-    console.log('Evento mainWindow close disparado!');
-  });
-
   mainWindow.on('closed', () => {
-    console.log('Evento mainWindow closed disparado!');
     mainWindow = null;
   });
-
-  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
-    console.error('Falha ao carregar tela:', errorCode, errorDescription);
-  });
 }
-
-app.on('before-quit', () => console.log('App: before-quit'));
-app.on('will-quit', () => console.log('App: will-quit'));
-app.on('quit', (event, exitCode) => console.log('App: quit com código:', exitCode));
-
-process.on('uncaughtException', (err) => console.error('Process uncaughtException:', err));
-process.on('unhandledRejection', (err) => console.error('Process unhandledRejection:', err));
 
 app.whenReady().then(() => {
   createWindow();
@@ -113,7 +74,7 @@ ipcMain.handle('cadastrar-tutor', (event, tutor) => {
 // CANAIS IPC - PET
 // ==========================================
 
-// Listar todos os pets
+// Listar todos os pets (com nome do tutor via JOIN)
 ipcMain.handle('listar-pets', () => {
   try {
     const stmt = db.prepare(`
@@ -155,7 +116,7 @@ ipcMain.handle('cadastrar-pet', (event, pet) => {
 // CANAIS IPC - AGENDAMENTO (CONSULTA)
 // ==========================================
 
-// Listar agendamentos com JOIN
+// Listar agendamentos com JOIN de Pet e Tutor
 ipcMain.handle('listar-agendamentos', () => {
   try {
     const stmt = db.prepare(`
@@ -179,7 +140,7 @@ ipcMain.handle('listar-agendamentos', () => {
   }
 });
 
-// Criar novo agendamento
+// Criar novo agendamento de consulta
 ipcMain.handle('criar-agendamento', (event, { dia, Horario, sintoma, id_tutor, id_pet, diagnostico }) => {
   try {
     const stmt = db.prepare(`
