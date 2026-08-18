@@ -11,7 +11,6 @@
     "rebuild": "electron-rebuild"
 =======
     "dev":"electron . --dev"
->>>>>>> c9cf998 (package.json)
   },
   "dependencies": {
     "express": "^4.19.2",
