@@ -5,44 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VetCare - Sistema de Gestão Veterinária</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-  <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="style.css">
   <style>
     body {
       max-width: 700px;
       margin: 40px auto;
       padding: 0 20px;
+      /* background-image: url('imagens/vet_logo.png'); 
+      
+      background-repeat: no-repeat; 
+      
+      background-size: cover; 
+      
+      background-position: center; 
+      
+      background-attachment: fixed; */
+
+      .hero {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      .menu-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .menu-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        border: 1px solid var(--pico-muted-border-color);
+        border-radius: 8px;
+        text-decoration: none;
+        transition: transform 0.15s ease, border-color 0.15s ease;
+      }
+      .menu-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--pico-primary);
+      }
+      .menu-card h3 {
+        margin: 0 0 4px 0;
+      }
+      .menu-card p {
+        margin: 0;
+        color: var(--pico-muted-color);
+        font-size: 0.9rem;
+      }
     }
-    .hero {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .menu-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-    .menu-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
-      border: 1px solid var(--pico-muted-border-color);
-      border-radius: 8px;
-      text-decoration: none;
-      transition: transform 0.15s ease, border-color 0.15s ease;
-    }
-    .menu-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--pico-primary);
-    }
-    .menu-card h3 {
-      margin: 0 0 4px 0;
-    }
-    .menu-card p {
-      margin: 0;
-      color: var(--pico-muted-color);
-      font-size: 0.9rem;
-    }
+    
   </style>
 </head>
 <body>
