@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VetCenter - Gestão de Pets</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { max-width: 1500px; margin: 40px auto; padding: 0 20px; }
+    h1 { color: #f4f4f4; }
+  </style>
+</head>
+<a href="agendamento.html">⬅️ Voltar ao Agendamento</a>
+  <h1>📅 Pagamentos</h1>
+
+  <h2>Formulário de Pagamento</h2>
+  <form id="form-pagamento">
+   <label for="especie">Método de pagamento</label>
+    <select id="especie" required>
+      <option value="PIX">PIX</option>
+      <option value="Cartão de Crédito">Cartão de Crédito</option>
+      <option value="Cartão de Débito">Cartão de Débito</option>
+    </select>
+
+    <label for="valor">Valor do pagamento</label>
+    <input type="number" id="valor" placeholder="Ex: 100.00
+" required>
+    <label for="data">Data do pagamento</label>
+    <input type="date" id="data" required>
+    <button type="submit">Registrar pagamento</button>
+    </form>
+    <h2 style="margin-top: 30px; font-size: 1.3rem;">Pagamentos Registrados</h2>
+    <ul id="lista"></ul>
+    
