@@ -6,10 +6,10 @@
   "private":true,
   "license": "MIT",
   "scripts": {
-    "start": ".\\electron-win32-x64\\electron.exe",
-    "rebuild": "electron-rebuild",
-    "dev":"electron . --dev"
-  },
+  "start": "electron .",
+  "rebuild": "electron-rebuild",
+  "dev": "electron . --dev"
+},
   "dependencies": {
     "express": "4.19.2",
     "better-sqlite3": "11.1.2"
