@@ -59,6 +59,10 @@ formPet?.addEventListener('submit', async (e) => {
     observacoes: inputObservacao.value.trim(),
     id_tutor: selectTutor.value ? Number(selectTutor.value) : null
   };
+const padraoNome = /^\D$/;
+const padraRaca =  /^\D$/;
+const padraoGenero =  /^\D$/;
+
 
   try {
     const resultado = await window.api.cadastrarPet(dadosPet);
