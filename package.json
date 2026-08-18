@@ -4,7 +4,7 @@
   "description": "MVP da Clínica Veterinária VetCare",
   "main": "main.js",
   "private":true,
-  "license": "ULINCENSED",
+  "license": "MIT",
   "scripts": {
     "start": ".\\electron-win32-x64\\electron.exe",
     "rebuild": "electron-rebuild",
