@@ -53,13 +53,13 @@ formTutor?.addEventListener('submit', async (e) => {
  }
 
   if (telefone === "") {
-  document.getElementById("erroTelefone").textContent = "Preencha o campo Telefone";
+  document.querySelector("#erroTelefone").textContent = "Preencha o campo Telefone";
   valido = false;
  } else if (!regexTelefone.test(telefone)){
   document.getElementById("erroTelefone").textContent = "Telefone inválido";
   valido = false;
  } else {
-  document.getElementById("erroTelefone").textContent = "";
+  document.querySelector("#erroTelefone").textContent = "";
  }
 
 
