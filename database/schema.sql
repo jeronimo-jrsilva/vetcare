@@ -3,9 +3,9 @@
 CREATE TABLE IF NOT EXISTS "Tutor" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "nome" TEXT NOT NULL,
-    "telefone" TEXT,
+    "telefone" NUMBER,
     "email" TEXT,
-    "cpf" TEXT,
+    "cpf" NUMBER,
     "endereco" TEXT
 );
 
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS "Pet" (
     "especie" TEXT NOT NULL,
     "raca" TEXT,
     "genero" TEXT,
-    "data_nascimento" TEXT,
+    "data_nascimento" NUMBER,
     "observacoes" TEXT,
     FOREIGN KEY("id_tutor") REFERENCES "Tutor"("id")
 );
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS "Consulta" (
     "id_tutor" INTEGER NOT NULL,
     "id_pet" INTEGER NOT NULL,
     "dia" TEXT NOT NULL,
-    "Horario" TEXT NOT NULL,
+    "Horario" NUMBER NOT NULL,
     "sintoma" TEXT,
     "diagnostico" TEXT,
     FOREIGN KEY("id_tutor") REFERENCES "Tutor"("id"),
