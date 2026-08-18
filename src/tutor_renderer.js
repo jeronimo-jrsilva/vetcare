@@ -43,20 +43,20 @@ formTutor?.addEventListener('submit', async (e) => {
  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
  if (cpf === "") {
-  document.getElementById("erroCpf").textContent = "Preencha o campo CPF";
+  document.querySelector('#erroCpf').textContent = "Preencha o campo CPF";
   valido = false;
  } else if (!regexCpf.test(cpf)){
-  document.getElementById("erroCpf").textContent = "CPF inválido";
+  document.querySelector("#erroCpf").textContent = "CPF inválido";
   valido = false;
  } else {
-  document.getElementById("erroCpf").textContent = "";
+  document.querySelector("#erroCpf").textContent = "";
  }
 
   if (telefone === "") {
   document.querySelector("#erroTelefone").textContent = "Preencha o campo Telefone";
   valido = false;
  } else if (!regexTelefone.test(telefone)){
-  document.getElementById("erroTelefone").textContent = "Telefone inválido";
+  document.querySelector("#erroTelefone").textContent = "Telefone inválido";
   valido = false;
  } else {
   document.querySelector("#erroTelefone").textContent = "";
