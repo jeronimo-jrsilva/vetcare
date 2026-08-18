@@ -3,11 +3,18 @@
   "version": "1.0.0",
   "description": "MVP da Clínica Veterinária VetCare",
   "main": "main.js",
+  "private":true,
+  "license": "ULINCENSED",
   "scripts": {
     "start": "electron .",
+<<<<<<< HEAD
     "rebuild": "electron-rebuild"
+=======
+    "dev":"electron . --dev"
+>>>>>>> c9cf998 (package.json)
   },
   "dependencies": {
+    "express": "^4.19.2",
     "better-sqlite3": "^11.1.2"
   },
   "devDependencies": {
