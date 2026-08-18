@@ -6,15 +6,15 @@
   "private":true,
   "license": "ULINCENSED",
   "scripts": {
-    "start": "electron .",
+    "start": ".\\electron-win32-x64\\electron.exe",
     "rebuild": "electron-rebuild",
     "dev":"electron . --dev"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "better-sqlite3": "^11.1.2"
+    "express": "4.19.2",
+    "better-sqlite3": "11.1.2"
   },
   "devDependencies": {
-    "electron": "^31.7.7"
+    "electron": "31.7.7"
   }
 }
