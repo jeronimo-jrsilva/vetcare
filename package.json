@@ -7,9 +7,7 @@
   "license": "ULINCENSED",
   "scripts": {
     "start": "electron .",
-<<<<<<< HEAD
-    "rebuild": "electron-rebuild"
-=======
+    "rebuild": "electron-rebuild",
     "dev":"electron . --dev"
   },
   "dependencies": {
