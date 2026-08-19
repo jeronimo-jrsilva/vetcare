@@ -1,6 +1,13 @@
 console.log("Tutor Renderer Carregado!");
 
 const formTutor = document.querySelector('#form-tutor');
+const inputNome = document.querySelector('#nome');
+const inputTelefone = document.querySelector('#telefone');
+const inputEmail = document.querySelector('#email');
+const inputCpf = document.querySelector('#cpf');
+const inputEndereco = document.querySelector('#endereco');
+const inputNomePet = document.querySelector('#nome_pet');
+const inputIdadePet = document.querySelector('#idade_pet');
 const listaTutores = document.querySelector('#lista');
 
 // Listar tutores na tela
