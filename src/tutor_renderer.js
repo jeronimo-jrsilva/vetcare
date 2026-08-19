@@ -49,6 +49,8 @@ formTutor?.addEventListener('submit', async (e) => {
  const regexTelefone = /^\d{10,11}$/;
  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+   let valido = true;
+
  if (cpf === "") {
   document.querySelector('#erroCpf').textContent = "Preencha o campo CPF";
   valido = false;
@@ -69,7 +71,8 @@ formTutor?.addEventListener('submit', async (e) => {
   document.querySelector("#erroTelefone").textContent = "";
  }
 
-
+ if (!valido) return;
+ 
   const petNome = document.querySelector('#petNome')?.value.trim();
   const petIdade = document.querySelector('#petIdade')?.value.trim();
 
