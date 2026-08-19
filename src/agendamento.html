@@ -6,12 +6,17 @@
   <title>VetCare - Agendamento de Consultas</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
   <link rel="stylesheet" href="style.css">
+  <style>
+    body { max-width: 600px; margin: 40px auto; padding: 0 20px; }
+    h1 { color: #f4f4f4; }
+  </style>
 </head>
 <body>
   <a href="index.html">⬅️ Voltar ao Menu</a>
-  <h1>📅 Agendamento de Consultas</h1>
 
-  <h2>Nova consulta</h2>
+  <h1>📅 Agendamento de Consultas</h1>
+  <p>Preencha os dados para marcar uma consulta veterinária:</p>
+
   <form id="form-agendamento">
     <label for="tutor">Tutor:</label>
     <select id="tutor" required></select>
@@ -31,9 +36,13 @@
     <label for="sintoma">Motivo da consulta:</label>
     <input type="text" id="sintoma" placeholder="Ex: Vacinação, check-up...">
 
-    <button type="submit">Efetuar pagamento</button>
+    <button type="submit">Agendar Consulta</button>
   </form>
 
+  <h2 style="margin-top: 30px; font-size: 1.3rem;">Consultas Agendadas</h2>
+  <ul id="lista-agendamentos"></ul>
+
+  <a href="pagamento.html">💠Ir para pagamento💠</a>
   <script src="agendamento_renderer.js"></script>
 </body>
 </html>
