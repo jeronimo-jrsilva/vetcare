@@ -5,6 +5,11 @@ const selectTutor = document.querySelector('#tutor');
 const selectPet = document.querySelector('#pet');
 const listaAgendamentos = document.querySelector('#lista-agendamentos');
 
+function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.textContent = str ?? '';
+  return div.innerHTML;
+}
 // Preenche o <select> de tutores
 async function carregarTutores() {
   if (!selectTutor) return;
