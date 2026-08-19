@@ -6,8 +6,8 @@ const inputTelefone = document.querySelector('#telefone');
 const inputEmail = document.querySelector('#email');
 const inputCpf = document.querySelector('#cpf');
 const inputEndereco = document.querySelector('#endereco');
-const inputNomePet = document.querySelector('#nome_pet');
-const inputIdadePet = document.querySelector('#idade_pet');
+const inputNomePet = document.querySelector('#petNome');
+const inputIdadePet = document.querySelector('#petIdade');
 const listaTutores = document.querySelector('#lista');
 
 // Listar tutores na tela
