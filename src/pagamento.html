@@ -22,14 +22,40 @@
       <option value="Cartão de Crédito">Cartão de Crédito</option>
       <option value="Cartão de Débito">Cartão de Débito</option>
     </select>
+<!-- Cartão de Crédito -->
+<div id="campos-cartao" style="display: none;">
+    <label for="numero-cartao">Número do cartão</label>
+    <input type="text" id="numero-cartao" placeholder="0000 0000 0000 0000" maxlength="19">
 
-    <label for="valor">Valor do pagamento</label>
-    <input type="number" id="valor" placeholder="Ex: 100.00
-" required>
-    <label for="data">Data do pagamento</label>
-    <input type="date" id="data" required>
-    <button type="submit">Registrar pagamento</button>
-    </form>
+    <label for="nome-cartao">Nome no cartão</label>
+    <input type="text" id="nome-cartao" placeholder="Ex: João da Silva">
+
+    <div class="grid">
+      <div>
+        <label for="validade-cartao">Validade</label>
+        <input type="text" id="validade-cartao" placeholder="MM/AA" maxlength="5">
+      </div>
+      <div>
+        <label for="cvv-cartao">CVV</label>
+        <input type="text" id="cvv-cartao" placeholder="123" maxlength="4">
+      </div>
+    </div>
+  </div>
+<!-- PIX -->
+  <div id="campos-pix" style="display: none;">
+    <label for="chave-pix">Chave PIX (opcional)</label>
+    <input type="text" id="chave-pix" placeholder="CPF, e-mail ou telefone">
+  </div>
+
+  <label for="valor">Valor do pagamento</label>
+  <input type="number" id="valor" placeholder="Ex: 100.00" required>
+
+  <label for="data">Data do pagamento</label>
+  <input type="date" id="data" required>
+
+  <button type="submit">Registrar pagamento</button>
+</form>
+
     <h2 style="margin-top: 30px; font-size: 1.3rem;">Pagamentos Registrados</h2>
     <ul id="lista"></ul>
     
