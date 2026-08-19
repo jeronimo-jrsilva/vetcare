@@ -6,7 +6,7 @@
   "private":true,
   "license": "MIT",
   "scripts": {
-  "start": "electron .",
+  "start": ".\\electron-win32-x64\\electron .",
   "rebuild": "electron-rebuild",
   "dev": "electron . --dev"
 },
