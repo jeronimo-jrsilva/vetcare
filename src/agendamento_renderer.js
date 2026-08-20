@@ -20,7 +20,7 @@ async function carregarTutores() {
       return;
     }
     selectTutor.innerHTML = tutores
-      .map(t => `<option value="${t.id}">${t.nome}</option>`)
+     .map(t => `<option value="${t.id}">${escapeHTML(t.nome)}</option>`)
       .join('');
   } catch (err) {
     console.error("Erro ao carregar tutores:", err);
