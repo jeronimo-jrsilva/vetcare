@@ -45,9 +45,11 @@ formTutor?.addEventListener('submit', async (e) => {
     cpf: document.querySelector('#cpf').value.trim(),
     endereco: document.querySelector('#endereco').value.trim()
   };
+
+  const { cpf, telefone } = dadosTutor;
+
  const regexCpf = /^\d{11}$/;
  const regexTelefone = /^\d{10,11}$/;
- const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
    let valido = true;
 
