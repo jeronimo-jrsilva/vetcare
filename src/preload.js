@@ -5,12 +5,15 @@ contextBridge.exposeInMainWorld('api', {
   // Tutores
   listarTutores: () => ipcRenderer.invoke('listar-tutores'),
   cadastrarTutor: (dados) => ipcRenderer.invoke('cadastrar-tutor', dados),
-
+editarTutor: (id, dados) => ipcRenderer.invoke('editar-tutor', id, dados),
+excluirTutor: (id) => ipcRenderer.invoke('excluir-tutor', id),
   // Pets
   listarPets: () => ipcRenderer.invoke('listar-pets'),
   cadastrarPet: (dados) => ipcRenderer.invoke('cadastrar-pet', dados),
-
+editarPet: (id, dados) => ipcRenderer.invoke('editar-pet', id, dados),
+excluirPet: (id) => ipcRenderer.invoke('excluir-pet', id),
   // Agendamentos
+  editarAgendamento: (id, dados) => ipcRenderer.invoke('editar-agendamento', id, dados),
   listarAgendamentos: () => ipcRenderer.invoke('listar-agendamentos'),
   criarAgendamento: (dados) => ipcRenderer.invoke('criar-agendamento', dados),
   excluirAgendamento: (id) => ipcRenderer.invoke('excluir-agendamento', id)

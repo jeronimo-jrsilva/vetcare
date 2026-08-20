@@ -75,7 +75,6 @@ function renderizarLista() {
     lista.innerHTML = '<li>Nenhum pagamento registrado ainda.</li>';
     return;
   }
-
   pagamentos.forEach((pagamento, index) => {
     const detalhesExtras = formatarDetalhesExtras(pagamento);
 
