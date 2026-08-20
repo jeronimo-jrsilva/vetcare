@@ -112,6 +112,21 @@ ipcMain.handle('cadastrar-pet', (event, pet) => {
     return { success: false, error: error.message };
   }
 });
+//Pesquisar por pet
+ipcMain.handle('buscar-pet', (event, pet) => {
+try {
+  const stmt = db.prepare(`
+    // INSERT INTO Pet (nome)
+    //   VALUES (?)
+      ('SELECT * FROM tutor ORDER BY nome ASC');
+    return stmt.all();
+    `)
+    return { success: true, id: resultado-pet};
+} catch (error) {
+  console.error('Erro ao buscar pet:', error.message);
+    return { success: false, error: error.message };
+}
+});
 
 // ==========================================
 // CANAIS IPC - AGENDAMENTO (CONSULTA)
