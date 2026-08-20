@@ -122,14 +122,14 @@ formPagamento.addEventListener('submit', (e) => {
   const novoPagamento = { metodo, valor, data };
 
 
-  if (metodo === 'Cartão de Crédito' || metodo === 'Cartão de Débito') {
-    novoPagamento.numeroCartao = inputNumeroCartao.value;
-    novoPagamento.nomeCartao = inputNomeCartao.value;
-    novoPagamento.validadeCartao = inputValidadeCartao.value;
-    novoPagamento.cvvCartao = inputCvvCartao.value;
-  } else if (metodo === 'PIX') {
-    novoPagamento.chavePix = inputChavePix.value;
-  }
+ if (metodo === 'Cartão de Crédito' || metodo === 'Cartão de Débito') {
+  novoPagamento.numeroCartao = inputNumeroCartao.value.slice(-4); // só os últimos 4 dígitos
+  novoPagamento.nomeCartao = inputNomeCartao.value;
+  novoPagamento.validadeCartao = inputValidadeCartao.value;
+  // CVV não pode ser armazenado por questões de segurança
+} else if (metodo === 'PIX') {
+  novoPagamento.chavePix = inputChavePix.value;
+}
 
   const pagamentos = getPagamentos();
   pagamentos.push(novoPagamento);
