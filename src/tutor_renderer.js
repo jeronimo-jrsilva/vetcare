@@ -23,14 +23,15 @@ async function carregarTutores() {
     listaTutores.innerHTML = tutores
       .map(t => `
         <li>
-          <strong>👤 ${t.nome}</strong><br>
-          <small>📞 ${t.telefone || 'Sem telefone'} | ✉️ ${t.email || 'Sem email'} | CPF: ${t.cpf || 'Não informado'}</small><br>
-          <small>📍 ${t.endereco || 'Endereço não informado'}</small>
+          <strong>👤 ${escapeHTML(t.nome)}</strong><br>
+          <small>📞 ${escapeHTML(t.telefone) || 'Sem telefone'} | ✉️ ${escapeHTML(t.email) || 'Sem email'} | CPF: ${escapeHTML(t.cpf) || 'Não informado'}</small><br>
+        <small>📍 ${escapeHTML(t.endereco) || 'Endereço não informado'}</small>
         </li>
       `)
       .join('');
   } catch (err) {
     console.error("Erro ao listar tutores:", err);
+    listaTutores.innerHTML = '<li>Erro ao listar tutores.</li>';
   }
 }
 

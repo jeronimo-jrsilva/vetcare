@@ -17,9 +17,10 @@ async function carregarTutores() {
     const tutores = await window.api.listarTutores();
     selectTutor.innerHTML = '<option value="">Selecione um tutor (opcional)...</option>' +
       tutores.map(t => `<option value="${t.id}">${t.nome}</option>`).join('');
-  } catch (err) {
-    console.error("Erro ao carregar tutores:", err);
-  }
+ } catch (err) {
+  console.error("Erro ao carregar tutores:", err);
+  selectTutor.innerHTML = '<option value="">Erro ao carregar tutores</option>';
+}
 }
 
 // Carregar pets cadastrados
@@ -35,14 +36,15 @@ async function carregarPets() {
     listaPets.innerHTML = pets
       .map(p => `
         <li>
-          <strong>🐾 ${p.nome}</strong> — ${p.especie || 'Pet'} (${p.raca || 'SRD'} • ${p.genero || 'N/I'})<br>
-          <small>👤 Tutor: ${p.tutor_nome || 'Sem tutor vinculado'}</small><br>
-          <small>🎂 Nasc: ${p.data_nascimento || 'Não informado'} | 📝 Obs: ${p.observacoes || 'Nenhuma'}</small>
+          <strong>🐾 ${escapeHTML(p.nome)}</strong> — ${escapeHTML(p.especie) || 'Pet'} (${escapeHTML(p.raca) || 'SRD'} • ${escapeHTML(p.genero) || 'N/I'})<br>
+          <small>👤 Tutor: ${escapeHTML(p.tutor_nome) || 'Sem tutor vinculado'}</small><br>
+          <small>🎂 Nasc: ${escapeHTML(p.data_nascimento) || 'Não informado'} | 📝 Obs: ${escapeHTML(p.observacoes) || 'Nenhuma'}</small>
         </li>
       `)
       .join('');
   } catch (err) {
     console.error("Erro ao carregar pets:", err);
+    listaPets.innerHTML = '<li>Erro ao carregar pets.</li>';
   }
 }
 
@@ -59,9 +61,10 @@ formPet?.addEventListener('submit', async (e) => {
     observacoes: inputObservacao.value.trim(),
     id_tutor: selectTutor.value ? Number(selectTutor.value) : null
   };
-const padraoNome = /^\D$/;
-const padraRaca =  /^\D$/;
-const padraoGenero =  /^\D$/;
+if (!dadosPet.nome) {
+  alert("O nome do pet é obrigatório.");
+  return;
+}
 
 
   try {
