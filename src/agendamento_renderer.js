@@ -37,7 +37,7 @@ async function carregarPets() {
       return;
     }
     selectPet.innerHTML = pets
-      .map(p => `<option value="${p.id}">${p.nome} (${p.especie || 'Pet'} • ${p.raca || 'SRD'})</option>`)
+      .map(p => `<option value="${p.id}">${escapeHTML(p.nome)} (${escapeHTML(p.especie || 'Pet')} • ${escapeHTML(p.raca || 'SRD')})</option>`)
       .join('');
   } catch (err) {
     console.error("Erro ao carregar pets:", err);
@@ -58,8 +58,8 @@ async function carregarAgendamentos() {
       .map(c => `
         <li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
           <div>
-            <strong>📅 ${c.dia} às ${c.Horario}</strong> — 🐾 <em>${c.pet_nome}</em> (Tutor: ${c.tutor_nome})<br>
-            <small>${c.sintoma ? `🩺 Motivo: ${c.sintoma}` : ''} ${c.diagnostico ? `| 👨‍⚕️ Vet: ${c.diagnostico}` : ''}</small>
+            <strong>📅 ${escapeHTML(c.dia)} às ${escapeHTML(c.Horario)}</strong> — 🐾 <em>${escapeHTML(c.pet_nome)}</em> (Tutor: ${escapeHTML(c.tutor_nome)})<br>
+<small>${c.sintoma ? `🩺 Motivo: ${escapeHTML(c.sintoma)}` : ''} ${c.diagnostico ? `| 👨‍⚕️ Vet: ${escapeHTML(c.diagnostico)}` : ''}</small>
           </div>
           <button data-id="${c.id_consulta}" class="btn-excluir" style="width: auto; padding: 4px 10px; margin: 0; background: #d97757; color: white; border: none; border-radius: 4px; cursor: pointer;">Excluir</button>
         </li>
@@ -87,15 +87,24 @@ formAgendamento?.addEventListener('submit', async (event) => {
     id_tutor: Number(selectTutor.value),
     id_pet: Number(selectPet.value),
   };
+   const botaoSubmit = formAgendamento.querySelector('button[type="submit"]');
+    botaoSubmit.disabled = true;
 
-  const resultado = await window.api.criarAgendamento(dados);
-  if (resultado.success) {
-    formAgendamento.reset();
-    await carregarAgendamentos();
-  } else {
-    alert("Erro ao agendar consulta: " + resultado.error);
-  }
-});
+    try {
+      const resultado = await window.api.criarAgendamento(dados);
+      if (resultado.success) {
+        formAgendamento.reset();
+        await carregarAgendamentos();
+      } else {
+        alert("Erro ao agendar consulta: " + resultado.error);
+      }
+    } catch (err) {
+      console.error("Erro ao criar agendamento:", err);
+      alert("Erro inesperado ao agendar consulta.");
+    } finally {
+      botaoSubmit.disabled = false;
+    }
+  });
 
 // Exclusão de consultas (delegação de evento no <ul>)
 listaAgendamentos?.addEventListener('click', async (event) => {
