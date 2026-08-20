@@ -111,8 +111,13 @@ listaAgendamentos?.addEventListener('click', async (event) => {
   if (event.target.classList.contains('btn-excluir')) {
     const id = event.target.dataset.id;
     if (confirm("Deseja realmente cancelar este agendamento?")) {
-      await window.api.excluirAgendamento(id);
-      await carregarAgendamentos();
+      try {
+        await window.api.excluirAgendamento(id);
+        await carregarAgendamentos();
+      } catch (err) {
+        console.error("Erro ao excluir agendamento:", err);
+        alert("Erro ao cancelar o agendamento.");
+      }
     }
   }
 });
