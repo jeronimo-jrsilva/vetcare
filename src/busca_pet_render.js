@@ -13,3 +13,4 @@ inputPesquisa.addEventListener('input', function() {
     }
   });
 });
+
