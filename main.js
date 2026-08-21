@@ -116,8 +116,8 @@ ipcMain.handle('cadastrar-pet', (event, pet) => {
 ipcMain.handle('buscar-pet', (event, pet) => {
 try {
   const stmt = db.prepare(`
-    // INSERT INTO Pet (nome)
-    //   VALUES (?)
+     INSERT INTO Pet (nome)
+       VALUES (?)
       ('SELECT * FROM tutor ORDER BY nome ASC');
     return stmt.all();
     `)

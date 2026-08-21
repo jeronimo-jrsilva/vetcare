@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <title>Buscar por Pets</title>
+    <style>
+      body { max-width: 1500px; margin: 40px auto; padding: 0 20px; }
+      h1 { color: #f4f4f4; }
+    </style>
   </head>
   <body>
     <main class="container"></main>
@@ -15,7 +19,7 @@
     
     <form id = pesquisa action="/pesquisa" method="GET">
     <input id = buscar type="search" name="q" placeholder="Pesquisar..." required>
-    <button id = Procurar type="submit">Buscar</button>
+    <button type="submit">Buscar</button>
   </form>
 </body>
 </html>
