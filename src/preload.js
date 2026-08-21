@@ -8,7 +8,7 @@ contextBridge.exposeInMainWorld('api', {
 editarTutor: (id, dados) => ipcRenderer.invoke('editar-tutor', id, dados),
 excluirTutor: (id) => ipcRenderer.invoke('excluir-tutor', id),
   // Pets
-  listarPets: () => ipcRenderer.invoke('listar-pets'),
+  listarPets: (nome) => ipcRenderer.invoke('buscar-pets', nome),
   cadastrarPet: (dados) => ipcRenderer.invoke('cadastrar-pet', dados),
 editarPet: (id, dados) => ipcRenderer.invoke('editar-pet', id, dados),
 excluirPet: (id) => ipcRenderer.invoke('excluir-pet', id),
