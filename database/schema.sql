@@ -39,3 +39,5 @@ CREATE TABLE IF NOT EXISTS "Usuario" (
     "senha" NUMBER NOT NULL,
     "cargo" TEXT DEFAULT 'Funcionario'
 );
+
+INSERT OR IGNORE INTO "Usuario" ("usuario", "senha", "cargo") VALUES ('admin', '1234', 'Admin');

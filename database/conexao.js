@@ -22,8 +22,19 @@ try {
   if (!temEspecie && colunas.length > 0) {
     db.exec("ALTER TABLE Pet ADD COLUMN especie TEXT DEFAULT 'Cachorro'");
   }
+
+  // Garante tabela Usuario e insere admin/1234
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS "Usuario" (
+      "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+      "usuario" TEXT NOT NULL UNIQUE,
+      "senha" TEXT NOT NULL,
+      "cargo" TEXT DEFAULT 'Funcionario'
+    );
+    INSERT OR IGNORE INTO "Usuario" ("usuario", "senha", "cargo") VALUES ('admin', '1234', 'Admin');
+  `);
 } catch (err) {
-  console.error("Erro na verificação de colunas:", err.message);
+  console.error("Erro na verificação de tabelas/colunas:", err.message);
 }
 
 module.exports = db;
