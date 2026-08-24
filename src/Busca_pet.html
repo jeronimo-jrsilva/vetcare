@@ -16,17 +16,21 @@
     <h1>
       <label>Buscar por Pets cadastrados</label>
     </h1>
-  <h4> 
-  <label>Histórico de Vacinas💉🗒️</label>
-  </h4>
   </body>
     <form id="pesquisa">
       <input id="buscar" type="search" name="q" placeholder="Pesquisar por nome do pet...">
       <button type="submit">Buscar</button>
     </form>
+    <div class="historico-container">
+  <h2>Histórico do Pet</h2>
+  <!-- A lista será renderizada aqui dentro -->
+  <ul id="historico-vacina"></ul>
+</div>
+
 
     <h2 style="margin-top: 30px; font-size: 1.3rem;">Resultados</h2>
     <ul id="lista-resultados"></ul>
+    
 
     <script src="busca_pet_render.js"></script>
   </body>
