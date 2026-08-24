@@ -24,3 +24,12 @@ formLogin?.addEventListener('submit', async (e) => {
     }
 });
 
+const db = require('./database/conexao');
+
+const stmt = db.prepare(`
+  INSERT INTO Usuario (usuario, senha)
+  VALUES (?, ?)
+`);
+stmt.run('admin', '1234');
+
+console.log('Usuário criado com sucesso!');
