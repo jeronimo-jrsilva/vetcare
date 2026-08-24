@@ -1,4 +1,5 @@
 console.log("Login Renderer Carregado!");   
+const db = require('./database/schema.sql');
 
 const formLogin = document.querySelector('#form-login');    
 const inputUsuario = document.querySelector('#usuario');
@@ -23,4 +24,11 @@ formLogin?.addEventListener('submit', async (e) => {
         alert('Erro ao tentar logar. Verifique o console para mais detalhes.');
     }
 });
+
+
+const stmt = db.prepare(`
+  INSERT INTO Usuario (usuario, senha)
+  VALUES (?, ?)
+`);
+stmt.run('admin', 1234);
 

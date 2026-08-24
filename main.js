@@ -69,31 +69,6 @@ ipcMain.handle('cadastrar-tutor', (event, tutor) => {
     return { success: false, error: error.message };
   }
 });
-// ==========================================
-// CANAIS IPC - LOGIN / USUÁRIO
-// ==========================================
-// Fazer login
-ipcMain.handle('login-usuario', (event, { usuario, senha }) => {
-  try {
-    const stmt = db.prepare('SELECT * FROM Usuario WHERE usuario = ?');
-    const user = stmt.get(usuario);
-
-    if (!user) {
-      return { success: false, error: 'Usuário não encontrado.' };
-    }
-
-    if (user.senha !== senha) {
-      return { success: false, error: 'Senha incorreta.' };
-    }
-
-    return { success: true, usuario: user.usuario };
-  } catch (error) {
-    console.error('Erro ao fazer login:', error.message);
-    return { success: false, error: error.message };
-  }
-});
-
-
 
 // ==========================================
 // CANAIS IPC - PET
