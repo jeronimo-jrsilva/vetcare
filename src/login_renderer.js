@@ -24,7 +24,7 @@ formLogin?.addEventListener('submit', async (e) => {
     }
 });
 
-const db = require('./database/conexao');
+const db = require('./database/schema.sql');
 
 const stmt = db.prepare(`
   INSERT INTO Usuario (usuario, senha)
