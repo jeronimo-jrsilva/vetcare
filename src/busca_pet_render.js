@@ -3,6 +3,7 @@ console.log("Busca Pet Renderer Carregado!");
 const formPesquisa = document.querySelector('#pesquisa');
 const inputBuscar = document.querySelector('#buscar');
 const listaResultados = document.querySelector('#lista-resultados');
+const historicoVacina = document.querySelector('#historico-vacina');
 
 function escapeHTML(str) {
   const div = document.createElement('div');
