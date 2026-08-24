@@ -26,10 +26,10 @@ async function carregarTutores() {
     const tutores = await window.api.listarTutores();
     selectTutor.innerHTML = '<option value="">Selecione um tutor (opcional)...</option>' +
       tutores.map(t => `<option value="${t.id}">${t.nome}</option>`).join('');
-  } catch (err) {
-    console.error("Erro ao carregar tutores:", err);
-    selectTutor.innerHTML = '<option value="">Erro ao carregar tutores</option>';
-  }
+ } catch (err) {
+  console.error("Erro ao carregar tutores:", err);
+  selectTutor.innerHTML = '<option value="">Erro ao carregar tutores</option>';
+}
 }
 
 // Carregar pets cadastrados, com botões de editar/excluir
@@ -41,20 +41,18 @@ async function carregarPets() {
       listaPets.innerHTML = '<li>Nenhum pet cadastrado ainda.</li>';
       return;
     }
-
+    
     listaPets.innerHTML = pets
       .map(p => `
-        <li data-id="${p.id}">
+        <li>
           <strong>🐾 ${escapeHTML(p.nome)}</strong> — ${escapeHTML(p.especie) || 'Pet'} (${escapeHTML(p.raca) || 'SRD'} • ${escapeHTML(p.genero) || 'N/I'})<br>
           <small>👤 Tutor: ${escapeHTML(p.tutor_nome) || 'Sem tutor vinculado'}</small><br>
-          <small>🎂 Nasc: ${escapeHTML(p.data_nascimento) || 'Não informado'} | 📝 Obs: ${escapeHTML(p.observacoes) || 'Nenhuma'}</small><br>
-          <button type="button" class="btn-editar-pet" data-id="${p.id}">✏️ Editar</button>
-          <button type="button" class="btn-excluir-pet" data-id="${p.id}">✕ Excluir</button>
+          <small>🎂 Nasc: ${escapeHTML(p.data_nascimento) || 'Não informado'} | 📝 Obs: ${escapeHTML(p.observacoes) || 'Nenhuma'}</small>
         </li>
       `)
       .join('');
-  } catch (err) {
-    console.error("Erro ao carregar pets:", err);
+    } catch (err) {
+      console.error("Erro ao carregar pets:", err);
     listaPets.innerHTML = '<li>Erro ao carregar pets.</li>';
   }
 }
@@ -71,56 +69,10 @@ async function carregarPets() {
     }
   }
 
-// Delegação de eventos: clique em "Editar" ou "Excluir" na lista
-listaPets?.addEventListener('click', async (event) => {
-  const id = event.target.dataset.id;
-  if (!id) return;
-
-  // Excluir
-  if (event.target.classList.contains('btn-excluir-pet')) {
-    const confirmar = confirm('Tem certeza que deseja excluir este pet?');
-    if (!confirmar) return;
-
-    try {
-      const resultado = await window.api.excluirPet(Number(id));
-      if (resultado.success) {
-        await carregarPets();
-      } else {
-        alert('Erro ao excluir pet: ' + resultado.error);
-      }
-    } catch (err) {
-      console.error("Erro ao excluir pet:", err);
-    }
-  }
-
-  // Editar: preenche o formulário com os dados do pet clicado
-  if (event.target.classList.contains('btn-editar-pet')) {
-    try {
-      const pets = await window.api.listarPets();
-      const pet = pets.find(p => p.id === Number(id));
-      if (!pet) return;
-
-      inputNome.value = pet.nome || '';
-      selectEspecie.value = pet.especie || 'Cachorro';
-      inputRaca.value = pet.raca || '';
-      selectGenero.value = pet.genero || 'Macho';
-      inputDataNascimento.value = pet.data_nascimento || '';
-      inputObservacao.value = pet.observacoes || '';
-      selectTutor.value = pet.id_tutor || '';
-
-      editandoIdPet = pet.id;
-      if (btnSubmitPet) btnSubmitPet.textContent = 'Salvar alterações';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (err) {
-      console.error("Erro ao carregar pet para edição:", err);
-    }
-  }
-});
-
-// Submissão do formulário: decide entre CADASTRAR ou EDITAR
+// Submissão do formulário de pet
 formPet?.addEventListener('submit', async (e) => {
   e.preventDefault();
-
+  
   const dadosPet = {
     nome: inputNome.value.trim(),
     especie: selectEspecie.value,
@@ -130,11 +82,11 @@ formPet?.addEventListener('submit', async (e) => {
     observacoes: inputObservacao.value.trim(),
     id_tutor: selectTutor.value ? Number(selectTutor.value) : null
   };
+if (!dadosPet.nome) {
+  alert("O nome do pet é obrigatório.");
+  return;
+}
 
-  if (!dadosPet.nome) {
-    alert("O nome do pet é obrigatório.");
-    return;
-  }
 
   try {
     // MODO EDIÇÃO
