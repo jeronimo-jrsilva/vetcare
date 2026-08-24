@@ -93,48 +93,8 @@ ipcMain.handle('login-usuario', (event, { usuario, senha }) => {
   }
 });
 
-// Cadastrar novo usuário
-ipcMain.handle('cadastrar-usuario', (event, dados) => {
-  try {
-    const stmt = db.prepare('INSERT INTO Usuario (usuario, senha) VALUES (?, ?)');
-    const result = stmt.run(dados.usuario, dados.senha);
-    return { success: true, id: result.lastInsertRowid };
-  } catch (error) {
-    console.error('Erro ao cadastrar usuário:', error.message);
-    return { success: false, error: error.message };
-  }
-});// Fazer login
-ipcMain.handle('login-usuario', (event, { usuario, senha }) => {
-  try {
-    const stmt = db.prepare('SELECT * FROM Usuario WHERE usuario = ?');
-    const user = stmt.get(usuario);
 
-    if (!user) {
-      return { success: false, error: 'Usuário não encontrado.' };
-    }
 
-    if (user.senha !== senha) {
-      return { success: false, error: 'Senha incorreta.' };
-    }
-
-    return { success: true, usuario: user.usuario };
-  } catch (error) {
-    console.error('Erro ao fazer login:', error.message);
-    return { success: false, error: error.message };
-  }
-});
-
-// Cadastrar novo usuário
-ipcMain.handle('cadastrar-usuario', (event, dados) => {
-  try {
-    const stmt = db.prepare('INSERT INTO Usuario (usuario, senha) VALUES (?, ?)');
-    const result = stmt.run(dados.usuario, dados.senha);
-    return { success: true, id: result.lastInsertRowid };
-  } catch (error) {
-    console.error('Erro ao cadastrar usuário:', error.message);
-    return { success: false, error: error.message };
-  }
-});
 // ==========================================
 // CANAIS IPC - PET
 // ==========================================
