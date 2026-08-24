@@ -16,5 +16,7 @@ excluirPet: (id) => ipcRenderer.invoke('excluir-pet', id),
   editarAgendamento: (id, dados) => ipcRenderer.invoke('editar-agendamento', id, dados),
   listarAgendamentos: () => ipcRenderer.invoke('listar-agendamentos'),
   criarAgendamento: (dados) => ipcRenderer.invoke('criar-agendamento', dados),
-  excluirAgendamento: (id) => ipcRenderer.invoke('excluir-agendamento', id)
+  excluirAgendamento: (id) => ipcRenderer.invoke('excluir-agendamento', id),
+  //Busca_pet
+  buscarPets: (nomes) => ipcRenderer.invoke ('busca-pet',nomes )
 });
