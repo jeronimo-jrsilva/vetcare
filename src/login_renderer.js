@@ -30,6 +30,5 @@ const stmt = db.prepare(`
   INSERT INTO Usuario (usuario, senha)
   VALUES (?, ?)
 `);
-stmt.run('admin', '1234');
+stmt.run('admin', 1234);
 
-console.log('Usuário criado com sucesso!');
