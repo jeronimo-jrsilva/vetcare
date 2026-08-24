@@ -37,5 +37,5 @@ CREATE TABLE IF NOT EXISTS "Usuario" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "usuario" TEXT NOT NULL UNIQUE,
     "senha" TEXT NOT NULL,
-    "cargo" TEXT DEFAULT 'funcionario'
+    "cargo" TEXT DEFAULT 'Funcionario'
 );
