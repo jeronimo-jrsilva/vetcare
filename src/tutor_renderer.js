@@ -10,6 +10,12 @@ const inputNomePet = document.querySelector('#petNome');
 const inputIdadePet = document.querySelector('#petIdade');
 const listaTutores = document.querySelector('#lista');
 
+function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.textContent = str ?? '';
+  return div.innerHTML;
+}
+
 // Listar tutores na tela
 async function carregarTutores() {
   if (!listaTutores) return;

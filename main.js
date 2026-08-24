@@ -112,20 +112,21 @@ ipcMain.handle('cadastrar-pet', (event, pet) => {
     return { success: false, error: error.message };
   }
 });
-//Pesquisar por pet
-ipcMain.handle('buscar-pet', (event, pet) => {
-try {
-  const stmt = db.prepare(`
-    // INSERT INTO Pet (nome)
-    //   VALUES (?)
-      ('SELECT * FROM tutor ORDER BY nome ASC');
-    return stmt.all();
-    `)
-    return { success: true, id: resultado-pet};
-} catch (error) {
-  console.error('Erro ao buscar pet:', error.message);
-    return { success: false, error: error.message };
-}
+// Pesquisar por pet
+ipcMain.handle('buscar-pet', (event, termo) => {
+  try {
+    const stmt = db.prepare(`
+      SELECT Pet.*, Tutor.nome AS tutor_nome 
+      FROM Pet 
+      LEFT JOIN Tutor ON Pet.id_tutor = Tutor.id 
+      WHERE Pet.nome LIKE ?
+      ORDER BY Pet.nome ASC
+    `);
+    return stmt.all(`%${termo || ''}%`);
+  } catch (error) {
+    console.error('Erro ao buscar pet:', error.message);
+    return [];
+  }
 });
 
 // ==========================================

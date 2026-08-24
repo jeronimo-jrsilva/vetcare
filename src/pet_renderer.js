@@ -10,6 +10,12 @@ const inputDataNascimento = document.querySelector('#data_nascimento');
 const inputObservacao = document.querySelector('#observacoes');
 const listaPets = document.querySelector('#lista');
 
+function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.textContent = str ?? '';
+  return div.innerHTML;
+}
+
 // Carregar tutores no select
 async function carregarTutores() {
   if (!selectTutor) return;
