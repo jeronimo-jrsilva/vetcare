@@ -32,3 +32,10 @@ CREATE TABLE IF NOT EXISTS "Consulta" (
     FOREIGN KEY("id_tutor") REFERENCES "Tutor"("id"),
     FOREIGN KEY("id_pet") REFERENCES "Pet"("id")
 );
+
+CREATE TABLE IF NOT EXISTS "Usuario" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "usuario" TEXT NOT NULL UNIQUE,
+    "senha" TEXT NOT NULL,
+    "cargo" TEXT DEFAULT 'Funcionario'
+);

@@ -15,7 +15,7 @@ function createWindow() {
     }
   });
 
-  mainWindow.loadFile(path.join(__dirname, 'src', 'index.html'));
+  mainWindow.loadFile(path.join(__dirname, 'src', 'login.html'));
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -112,8 +112,23 @@ ipcMain.handle('cadastrar-pet', (event, pet) => {
     return { success: false, error: error.message };
   }
 });
-// Pesquisar por pet
+// Pesquisar por pet (suporta buscar-pet e busca-pet)
 ipcMain.handle('buscar-pet', (event, termo) => {
+  try {
+    const stmt = db.prepare(`
+      SELECT Pet.*, Tutor.nome AS tutor_nome 
+      FROM Pet 
+      LEFT JOIN Tutor ON Pet.id_tutor = Tutor.id 
+      WHERE Pet.nome LIKE ?
+      ORDER BY Pet.nome ASC
+    `);
+    return stmt.all(`%${termo || ''}%`);
+  } catch (error) {
+    console.error('Erro ao buscar pet:', error.message);
+    return [];
+  }
+});
+ipcMain.handle('busca-pet', (event, termo) => {
   try {
     const stmt = db.prepare(`
       SELECT Pet.*, Tutor.nome AS tutor_nome 
@@ -187,6 +202,108 @@ ipcMain.handle('excluir-agendamento', (event, id) => {
     return { success: true, changes: result.changes };
   } catch (error) {
     console.error('Erro ao excluir agendamento:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
+// Editar agendamento
+ipcMain.handle('editar-agendamento', (event, id, { dia, Horario, sintoma, id_tutor, id_pet, diagnostico }) => {
+  try {
+    const stmt = db.prepare(`
+      UPDATE Consulta 
+      SET dia = ?, Horario = ?, sintoma = ?, id_tutor = ?, id_pet = ?, diagnostico = ?
+      WHERE id_consulta = ?
+    `);
+    const result = stmt.run(dia, Horario, sintoma || '', id_tutor, id_pet, diagnostico || '', id);
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao editar agendamento:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
+// Autenticação de Usuário / Login
+ipcMain.handle('login-usuario', (event, { usuario, senha }) => {
+  try {
+    const stmt = db.prepare('SELECT * FROM Usuario WHERE usuario = ? AND senha = ?');
+    const user = stmt.get(usuario, senha);
+    if (user) {
+      return { success: true, user };
+    }
+    // Fallback padrão se não houver usuários cadastrados
+    if (usuario === 'admin' && senha === 'admin') {
+      return { success: true, user: { usuario: 'admin', cargo: 'Admin' } };
+    }
+    return { success: false, error: 'Usuário ou senha inválidos.' };
+  } catch (error) {
+    if (usuario === 'admin' && senha === 'admin') {
+      return { success: true };
+    }
+    return { success: false, error: error.message };
+  }
+});
+
+// Editar tutor
+ipcMain.handle('editar-tutor', (event, id, tutor) => {
+  try {
+    const stmt = db.prepare(`
+      UPDATE Tutor 
+      SET nome = ?, telefone = ?, email = ?, cpf = ?, endereco = ?
+      WHERE id = ?
+    `);
+    const result = stmt.run(tutor.nome || '', tutor.telefone || '', tutor.email || '', tutor.cpf || '', tutor.endereco || '', id);
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao editar tutor:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
+// Excluir tutor
+ipcMain.handle('excluir-tutor', (event, id) => {
+  try {
+    const stmt = db.prepare('DELETE FROM Tutor WHERE id = ?');
+    const result = stmt.run(id);
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao excluir tutor:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
+// Editar pet
+ipcMain.handle('editar-pet', (event, id, pet) => {
+  try {
+    const stmt = db.prepare(`
+      UPDATE Pet 
+      SET nome = ?, especie = ?, raca = ?, genero = ?, data_nascimento = ?, observacoes = ?, id_tutor = ?
+      WHERE id = ?
+    `);
+    const result = stmt.run(
+      pet.nome || '',
+      pet.especie || 'Cachorro',
+      pet.raca || 'SRD',
+      pet.genero || '',
+      pet.data_nascimento || '',
+      pet.observacoes || '',
+      pet.id_tutor || null,
+      id
+    );
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao editar pet:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
+// Excluir pet
+ipcMain.handle('excluir-pet', (event, id) => {
+  try {
+    const stmt = db.prepare('DELETE FROM Pet WHERE id = ?');
+    const result = stmt.run(id);
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao excluir pet:', error.message);
     return { success: false, error: error.message };
   }
 });

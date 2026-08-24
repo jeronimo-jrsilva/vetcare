@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VetCenter - Login</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { max-width: 420px; margin: 100px auto; padding: 0 20px; }
+    h1 { color: #f4f4f4; text-align: center; }
+    #erro-login { color: #d97757; text-align: center; margin-top: 10px; min-height: 20px; }
+  </style>
+</head>
+<body>
+  <h1>🐾 VetCenter</h1>
+  <h2 style="text-align: center;">Login</h2>
+
+  <form id="form-login">
+    <label for="usuario">Usuário</label>
+    <input type="text" id="usuario" placeholder="Digite seu usuário" required autofocus>
+
+    <label for="senha">Senha</label>
+    <input type="password" id="senha" placeholder="Digite sua senha" required>
+
+    <button type="submit">Entrar</button>
+    <p id="erro-login"></p>
+  </form>
+
+ <a href="index.html">Ir para a página principal</a>
+ 
+  <script src="login_renderer.js"></script>
+</body>
+</html>
