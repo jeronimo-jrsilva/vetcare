@@ -32,3 +32,5 @@ CREATE TABLE IF NOT EXISTS "Consulta" (
     FOREIGN KEY("id_tutor") REFERENCES "Tutor"("id"),
     FOREIGN KEY("id_pet") REFERENCES "Pet"("id")
 );
+
+
