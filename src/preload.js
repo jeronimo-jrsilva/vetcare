@@ -21,6 +21,11 @@ contextBridge.exposeInMainWorld('api', {
   // Agendamentos
   listarAgendamentos: () => ipcRenderer.invoke('listar-agendamentos'),
   criarAgendamento: (dados) => ipcRenderer.invoke('criar-agendamento', dados),
-  editarAgendamento: (id, dados) => ipcRenderer.invoke('editar-agendamento', id, dados),
-  excluirAgendamento: (id) => ipcRenderer.invoke('excluir-agendamento', id)
+  excluirAgendamento: (id) => ipcRenderer.invoke('excluir-agendamento', id),
+  //Busca_pet
+  buscarPets: (nomes) => ipcRenderer.invoke ('busca-pet', nomes ),
+   // Usuário (Login)
+  loginUsuario: (dados) => ipcRenderer.invoke('login-usuario', dados),
+  cadastrarUsuario: (dados) => ipcRenderer.invoke('cadastrar-usuario', dados),
 });
+
