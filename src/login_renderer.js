@@ -14,7 +14,7 @@ formLogin?.addEventListener('submit', async (e) => {
         const resultado = await window.api.loginUsuario({ usuario, senha });
         if (resultado.success) {
             // Login bem-sucedido, redirecionar para a página principal
-            window.location.href = 'agendamento.html';
+            window.location.href = 'index.html';
         } else {
             alert('Falha no login: ' + resultado.error);
         }
