@@ -143,6 +143,17 @@ ipcMain.handle('busca-pet', (event, termo) => {
     return [];
   }
 });
+// Excluir pet
+ipcMain.handle('excluir-pet', (event, id) => {
+  try {
+    const stmt = db.prepare('DELETE FROM Pet WHERE id = ?');
+    const result = stmt.run(id);
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao excluir pet:', error.message);
+    return { success: false, error: error.message };
+  }
+});
 
 // ==========================================
 // CANAIS IPC - AGENDAMENTO (CONSULTA)

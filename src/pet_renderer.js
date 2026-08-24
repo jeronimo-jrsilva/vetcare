@@ -53,6 +53,18 @@ async function carregarPets() {
     listaPets.innerHTML = '<li>Erro ao carregar pets.</li>';
   }
 }
+// Excluir pet
+  if (event.target.classList.contains('btn-excluir')) {
+    if (!confirm("Deseja realmente cancelar este pet?")) return;
+
+    try {
+      await window.api.excluirPet(id);
+      await carregarPets();
+    } catch (err) {
+      console.error("Erro ao excluir pet:", err);
+      alert("Erro ao cancelar o pet.");
+    }
+  }
 
 // Submissão do formulário de pet
 formPet?.addEventListener('submit', async (e) => {
