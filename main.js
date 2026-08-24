@@ -113,7 +113,7 @@ ipcMain.handle('cadastrar-pet', (event, pet) => {
   }
 });
 //Pesquisar por pet
-ipcMain.handle('buscar-pet', (event, pet) => {
+ipcMain.handle('busca-pet', (event, pet) => {
 try {
   const stmt = db.prepare(`
      INSERT INTO Pet (nome)
