@@ -156,6 +156,20 @@ ipcMain.handle('cadastrar-historico', (event, dados) => {
   }
 });
 
+
+ipcMain.handle('listar-pets', () => {
+  try {
+    const stmt = db.prepare(`
+      SELECT Pet.*, Tutor.nome AS tutor_nome
+      FROM Pet
+      LEFT JOIN Tutor ON Pet.id_tutor = Tutor.id
+      ORDER BY Pet.nome ASC
+    `);
+    return stmt.all();
+  } catch (error) {
+    console.error('Erro ao listar pets:', error.message);
+    return [];
+
 // Excluir um registro do histórico clínico
 ipcMain.handle('excluir-historico', (event, id) => {
   try {
@@ -166,6 +180,8 @@ ipcMain.handle('excluir-historico', (event, id) => {
     console.error('Erro ao excluir histórico:', error.message);
     return { success: false, error: error.message };
   }
+});
+ }
 });
 // Excluir pet
 ipcMain.handle('excluir-pet', (event, id) => {
