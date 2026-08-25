@@ -1,38 +1,67 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <title>Buscar por Pets</title>
-    <style>
-      body { max-width: 600px; margin: 40px auto; padding: 0 20px; }
-      h1 { color: #f4f4f4; }
-    </style>
-  </head>
-  <body>
-    <main class="container"></main>
-    <a href="index.html">⬅️ Voltar ao Menu</a>
-    <h1>
-      <label>Buscar por Pets cadastrados</label>
-    </h1>
-  </body>
-    <form id="pesquisa">
-      <input id="buscar" type="search" name="q" placeholder="Pesquisar por nome do pet...">
-      <button type="submit">Buscar</button>
-    </form>
-    <div class="historico-container">
-  <h2>Histórico do Pet</h2>
-  <!-- A lista será renderizada aqui dentro -->
-  <ul id="historico-vacina"></ul>
-</div>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VetCenter - Histórico Clínico</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { max-width: 1500px; margin: 40px auto; padding: 0 20px; }
+    h1 { color: #f4f4f4; }
+  </style>
+</head>
+<body>
+  <a href="agendamento.html">⬅️ Voltar ao Agendamento</a>
+  <h1>🗂️ Histórico Clínico</h1>
 
+  <label for="pet-select">Selecione o pet</label>
+  <select id="pet-select">
+    <option value="">Carregando pets...</option>
+  </select>
 
-    <h2 style="margin-top: 30px; font-size: 1.3rem;">Resultados</h2>
-    <ul id="lista-resultados"></ul>
-    
+  <h2 style="margin-top: 20px;">Adicionar Registro</h2>
+  <form id="form-historico">
+    <label for="tipo">Tipo de registro</label>
+    <select id="tipo" required>
+      <option value="Consulta">Consulta</option>
+      <option value="Vacina">Vacina</option>
+      <option value="Exame">Exame</option>
+      <option value="Cirurgia">Cirurgia</option>
+      <option value="Medicação">Medicação</option>
+      <option value="Outro">Outro</option>
+    </select>
 
-    <script src="busca_pet_render.js"></script>
-  </body>
+    <label for="data">Data</label>
+    <input type="date" id="data" required>
+
+    <label for="descricao">Descrição</label>
+    <input type="text" id="descricao" placeholder="Ex: Vacina antirrábica aplicada">
+
+    <div class="grid">
+      <div>
+        <label for="peso">Peso do pet (kg)</label>
+        <input type="number" id="peso" step="0.01" min="0" placeholder="Ex: 12.5">
+      </div>
+      <div>
+        <label for="medicamento_usado">Medicamento usado</label>
+        <input type="text" id="medicamento_usado" placeholder="Ex: Amoxicilina 250mg">
+      </div>
+    </div>
+
+    <label for="veterinario">Veterinário responsável</label>
+    <input type="text" id="veterinario" placeholder="Ex: Dr. Carlos Silva">
+
+    <label for="observacoes">Observações</label>
+    <input type="text" id="observacoes" placeholder="Ex: Retorno em 15 dias">
+
+    <button type="submit">Adicionar ao histórico</button>
+  </form>
+
+  <h2 style="margin-top: 30px; font-size: 1.3rem;">Registros do Pet</h2>
+  <ul id="lista-historico"></ul>
+
+  <script src="historico_renderer.js"></script>
+</body>
 </html>
 
