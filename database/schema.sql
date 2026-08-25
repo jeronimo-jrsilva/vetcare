@@ -49,6 +49,6 @@ CREATE TABLE IF NOT EXISTS'HistoricoClinico '(
    'medicamento_usado' TEXT,
     'veterinario' TEXT,
     'observacoes' TEXT,
-    FOREIGN KEY (i'd_pet') REFERENCES Pet('id')
+    FOREIGN KEY ('id_pet') REFERENCES 'Pet'('id')
 );
 INSERT OR IGNORE INTO "Usuario" ("usuario", "senha", "cargo") VALUES ('admin', '1234', 'Admin');
