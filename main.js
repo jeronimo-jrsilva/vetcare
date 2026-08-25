@@ -113,34 +113,58 @@ ipcMain.handle('cadastrar-pet', (event, pet) => {
   }
 });
 // Pesquisar por pet (suporta buscar-pet e busca-pet)
-ipcMain.handle('buscar-pet', (event, termo) => {
+// ==========================================
+// CANAIS IPC - HISTÓRICO CLÍNICO
+// ==========================================
+
+// Listar histórico clínico de um pet específico
+ipcMain.handle('listar-historico-pet', (event, idPet) => {
   try {
     const stmt = db.prepare(`
-      SELECT Pet.*, Tutor.nome AS tutor_nome 
-      FROM Pet 
-      LEFT JOIN Tutor ON Pet.id_tutor = Tutor.id 
-      WHERE Pet.nome LIKE ?
-      ORDER BY Pet.nome ASC
+      SELECT * FROM HistoricoClinico
+      WHERE id_pet = ?
+      ORDER BY data DESC
     `);
-    return stmt.all(`%${termo || ''}%`);
+    return stmt.all(idPet);
   } catch (error) {
-    console.error('Erro ao buscar pet:', error.message);
+    console.error('Erro ao listar histórico clínico:', error.message);
     return [];
   }
 });
-ipcMain.handle('busca-pet', (event, termo) => {
+
+// Cadastrar novo registro no histórico clínico
+ipcMain.handle('cadastrar-historico', (event, dados) => {
   try {
     const stmt = db.prepare(`
-      SELECT Pet.*, Tutor.nome AS tutor_nome 
-      FROM Pet 
-      LEFT JOIN Tutor ON Pet.id_tutor = Tutor.id 
-      WHERE Pet.nome LIKE ?
-      ORDER BY Pet.nome ASC
+      INSERT INTO HistoricoClinico (id_pet, data, tipo, descricao, peso, medicamento_usado, veterinario, observacoes)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    return stmt.all(`%${termo || ''}%`);
+    const result = stmt.run(
+      dados.id_pet,
+      dados.data,
+      dados.tipo,
+      dados.descricao || '',
+      dados.peso || null,
+      dados.medicamento_usado || '',
+      dados.veterinario || '',
+      dados.observacoes || ''
+    );
+    return { success: true, id: result.lastInsertRowid };
   } catch (error) {
-    console.error('Erro ao buscar pet:', error.message);
-    return [];
+    console.error('Erro ao cadastrar histórico:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
+// Excluir um registro do histórico clínico
+ipcMain.handle('excluir-historico', (event, id) => {
+  try {
+    const stmt = db.prepare('DELETE FROM HistoricoClinico WHERE id = ?');
+    const result = stmt.run(id);
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao excluir histórico:', error.message);
+    return { success: false, error: error.message };
   }
 });
 // Excluir pet
