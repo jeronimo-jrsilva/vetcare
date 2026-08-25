@@ -13,10 +13,10 @@ contextBridge.exposeInMainWorld('api', {
 
   // Pets
   listarPets: () => ipcRenderer.invoke('listar-pets'),
-  cadastrarPet: (dados) => ipcRenderer.invoke('cadastrar-pet', dados),
-  editarPet: (id, dados) => ipcRenderer.invoke('editar-pet', id, dados),
-  excluirPet: (id) => ipcRenderer.invoke('excluir-pet', id),
-  buscarPets: (termo) => ipcRenderer.invoke('buscar-pet', termo),
+  cadastrarpet: (dados) => ipcRenderer.invoke('cadastrar-pet', dados),
+  editarpet: (id, dados) => ipcRenderer.invoke('editar-pet', id, dados),
+  excluirpet: (id) => ipcRenderer.invoke('excluir-pet', id),
+  buscarpets: (termo) => ipcRenderer.invoke('buscar-pet', termo),
 
   // Agendamentos
   listarAgendamentos: () => ipcRenderer.invoke('listar-agendamentos'),
