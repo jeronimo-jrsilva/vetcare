@@ -7,16 +7,18 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
   <link rel="stylesheet" href="style.css">
   <style>
-    body { max-width: 600px; margin: 40px auto; padding: 0 20px; }
+    body { max-width: 1500px; margin: 40px auto; padding: 0 20px; }
     h1 { color: #f4f4f4; }
   </style>
 </head>
 <body>
-  <a href="index.html">⬅️ Voltar ao Menu</a>
+  <a href="agendamento.html">⬅️ Voltar ao Agendamento</a>
   <h1>🗂️ Histórico Clínico</h1>
 
-  <label for="pet_select">Selecione o pet</label>
-  <select id="pet_select" required></select>
+  <label for="pet-input">Selecione o pet</label>
+  <select id="pet-input>
+    <option value="">Carregando pets...</option>
+  </select>
 
   <h2 style="margin-top: 20px;">Adicionar Registro</h2>
   <form id="form-historico">
@@ -59,7 +61,7 @@
   <h2 style="margin-top: 30px; font-size: 1.3rem;">Registros do Pet</h2>
   <ul id="lista-historico"></ul>
 
-  <script src="busca_pet_renderer.js"></script>
+  <script src="historico_renderer.js"></script>
 </body>
 </html>
 
