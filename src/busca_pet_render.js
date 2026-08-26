@@ -1,6 +1,6 @@
 console.log("Histórico Clínico Renderer Carregado!");
 
-const inputPet = document.querySelector('#pet-input');
+const selectPet = document.querySelector('#pet-select');
 const formHistorico = document.querySelector('#form-historico');
 const selectTipo = document.querySelector('#tipo');
 const inputData = document.querySelector('#data');
