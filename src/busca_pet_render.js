@@ -24,20 +24,20 @@ function formatarData(data) {
 }
 
 // Preenche o select de pets
-async function carregarPets(listarPets) {
-  if (!selectPet) return;
-  try {
-    const pets = await window.api.listarPets();
-    if (!pets || pets.length === 0) {
-      selectPet.innerHTML = '<option value="">Nenhum pet cadastrado</option>';
-      return;
+const inputPesquisa = document.getElementById('pesquisa');
+const itensLista = document.querySelectorAll('#pesquisa + ul li');
+
+inputPesquisa.addEventListener('input', function() {
+  const termo = inputPesquisa.value.toLowerCase();
+
+  itensLista.forEach(item => {
+    const texto = item.textContent.toLowerCase();
+    if (texto.includes(termo)) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
     }
-    selectPet.innerHTML = '<option value="">Selecione um pet...</option>' +
-      pets.map(p => `<option value="${p.id}">${escapeHTML(p.nome)}</option>`).join('');
-  } catch (err) {
-    console.error("Erro ao carregar pets:", err);
-  }
-}
+  });
 
 // Carrega o histórico clínico do pet selecionado
 async function carregarHistorico(idPet) {
