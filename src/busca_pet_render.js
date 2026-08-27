@@ -10,7 +10,7 @@ const inputMedicamento = document.querySelector('#medicamento_usado');
 const inputVeterinario = document.querySelector('#veterinario');
 const inputObservacoes = document.querySelector('#observacoes');
 const listaHistorico = document.querySelector('#lista-historico');
-
+const listarPets
 function escapeHTML(str) {
   const div = document.createElement('div');
   div.textContent = str ?? '';
@@ -24,7 +24,7 @@ function formatarData(data) {
 }
 
 // Preenche o select de pets
-async function carregarPets() {
+async function carregarPets(listarPets) {
   if (!selectPet) return;
   try {
     const pets = await window.api.listarPets();
