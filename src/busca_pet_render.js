@@ -10,7 +10,7 @@ const inputMedicamento = document.querySelector('#medicamento_usado');
 const inputVeterinario = document.querySelector('#veterinario');
 const inputObservacoes = document.querySelector('#observacoes');
 const listaHistorico = document.querySelector('#lista-historico');
-const listarPets
+
 function escapeHTML(str) {
   const div = document.createElement('div');
   div.textContent = str ?? '';
@@ -38,6 +38,7 @@ inputPesquisa.addEventListener('input', function() {
       item.style.display = 'none';
     }
   });
+});
 
 // Carrega o histórico clínico do pet selecionado
 async function carregarHistorico(idPet) {
