@@ -40,6 +40,7 @@ inputPesquisa.addEventListener('input', function() {
   });
 });
 
+
 // Carrega o histórico clínico do pet selecionado
 async function carregarHistorico(idPet) {
   if (!listaHistorico) return;
