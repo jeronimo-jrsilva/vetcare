@@ -24,21 +24,18 @@ function formatarData(data) {
 }
 
 // Preenche o select de pets
-const inputPesquisa = document.getElementById('pesquisa');
-const itensLista = document.querySelectorAll('#pesquisa + ul li');
+  const pets = await window.api.buscarPets(termo);
+  try {
+    const nomes = pets.map(pet => pet.nome.toLowerCase());
+    const texto = termo.toLowerCase();
+  }
+  catch (err) {
+    console.error("Erro ao carregar pets:", err);
+  }
+      const encontrados = pets.filter(pet =>
+          pet.nome.toLowerCase().includes(termo.toLowerCase())
+      );
 
-inputPesquisa.addEventListener('input', function() {
-  const termo = inputPesquisa.value.toLowerCase();
-
-  itensLista.forEach(item => {
-    const texto = item.textContent.toLowerCase();
-    if (texto.includes(termo)) {
-      item.style.display = 'block';
-    } else {
-      item.style.display = 'none';
-    }
-  });
-});
 
 
 // Carrega o histórico clínico do pet selecionado
