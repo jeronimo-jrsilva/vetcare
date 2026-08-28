@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS "Consulta" (
 CREATE TABLE IF NOT EXISTS "Usuario" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "usuario" TEXT NOT NULL UNIQUE,
-    "senha" NUMBER NOT NULL,
+    "senha" TEXT NOT NULL,
     "cargo" TEXT DEFAULT 'Funcionario'
 );
 CREATE TABLE IF NOT EXISTS'HistoricoClinico '(
