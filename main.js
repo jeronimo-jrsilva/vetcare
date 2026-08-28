@@ -75,20 +75,20 @@ ipcMain.handle('cadastrar-tutor', (event, tutor) => {
 // ==========================================
 
 //Listar todos os pets (com nome do tutor via JOIN)
-ipcMain.handle('listar-pets', () => {
-  try {
-    const stmt = db.prepare(`
-      SELECT Pet.*, Tutor.nome AS tutor_nome 
-      FROM Pet 
-      LEFT JOIN Tutor ON Pet.id_tutor = Tutor.id 
-      ORDER BY Pet.nome ASC
-    `);
-    return stmt.all();
-  } catch (error) {
-    console.error('Erro ao listar pets:', error.message);
-    return [];
-  }
-});
+// ipcMain.handle('listar-pets', () => {
+//   try {
+//     const stmt = db.prepare(`
+//       SELECT Pet.*, Tutor.nome AS tutor_nome 
+//       FROM Pet 
+//       LEFT JOIN Tutor ON Pet.id_tutor = Tutor.id 
+//       ORDER BY Pet.nome ASC
+//     `);
+//     return stmt.all();
+//   } catch (error) {
+//     console.error('Erro ao listar pets:', error.message);
+//     return [];
+//   }
+// });
 
 // Cadastrar novo pet
 ipcMain.handle('cadastrar-pet', (event, pet) => {
