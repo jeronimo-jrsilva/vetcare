@@ -38,7 +38,6 @@ app.on('window-all-closed', () => {
 // CANAIS IPC - TUTOR
 // ==========================================
 
-// Listar todos os tutores
 ipcMain.handle('listar-tutores', () => {
   try {
     const stmt = db.prepare('SELECT * FROM Tutor ORDER BY nome ASC');
@@ -49,7 +48,6 @@ ipcMain.handle('listar-tutores', () => {
   }
 });
 
-// Cadastrar novo tutor
 ipcMain.handle('cadastrar-tutor', (event, tutor) => {
   try {
     const stmt = db.prepare(`
@@ -70,27 +68,51 @@ ipcMain.handle('cadastrar-tutor', (event, tutor) => {
   }
 });
 
+ipcMain.handle('editar-tutor', (event, id, tutor) => {
+  try {
+    const stmt = db.prepare(`
+      UPDATE Tutor 
+      SET nome = ?, telefone = ?, email = ?, cpf = ?, endereco = ?
+      WHERE id = ?
+    `);
+    const result = stmt.run(tutor.nome || '', tutor.telefone || '', tutor.email || '', tutor.cpf || '', tutor.endereco || '', id);
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao editar tutor:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('excluir-tutor', (event, id) => {
+  try {
+    const stmt = db.prepare('DELETE FROM Tutor WHERE id = ?');
+    const result = stmt.run(id);
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao excluir tutor:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
 // ==========================================
 // CANAIS IPC - PET
 // ==========================================
 
-//Listar todos os pets (com nome do tutor via JOIN)
-// ipcMain.handle('listar-pets', () => {
-//   try {
-//     const stmt = db.prepare(`
-//       SELECT Pet.*, Tutor.nome AS tutor_nome 
-//       FROM Pet 
-//       LEFT JOIN Tutor ON Pet.id_tutor = Tutor.id 
-//       ORDER BY Pet.nome ASC
-//     `);
-//     return stmt.all();
-//   } catch (error) {
-//     console.error('Erro ao listar pets:', error.message);
-//     return [];
-//   }
-// });
+ipcMain.handle('listar-pets', () => {
+  try {
+    const stmt = db.prepare(`
+      SELECT Pet.*, Tutor.nome AS tutor_nome
+      FROM Pet
+      LEFT JOIN Tutor ON Pet.id_tutor = Tutor.id
+      ORDER BY Pet.nome ASC
+    `);
+    return stmt.all();
+  } catch (error) {
+    console.error('Erro ao listar pets:', error.message);
+    return [];
+  }
+});
 
-// Cadastrar novo pet
 ipcMain.handle('cadastrar-pet', (event, pet) => {
   try {
     const stmt = db.prepare(`
@@ -112,12 +134,62 @@ ipcMain.handle('cadastrar-pet', (event, pet) => {
     return { success: false, error: error.message };
   }
 });
-// Pesquisar por pet (suporta buscar-pet e busca-pet)
+
+ipcMain.handle('editar-pet', (event, id, pet) => {
+  try {
+    const stmt = db.prepare(`
+      UPDATE Pet 
+      SET nome = ?, especie = ?, raca = ?, genero = ?, data_nascimento = ?, observacoes = ?, id_tutor = ?
+      WHERE id = ?
+    `);
+    const result = stmt.run(
+      pet.nome || '',
+      pet.especie || 'Cachorro',
+      pet.raca || 'SRD',
+      pet.genero || '',
+      pet.data_nascimento || '',
+      pet.observacoes || '',
+      pet.id_tutor || null,
+      id
+    );
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao editar pet:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('excluir-pet', (event, id) => {
+  try {
+    const stmt = db.prepare('DELETE FROM Pet WHERE id = ?');
+    const result = stmt.run(id);
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao excluir pet:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('buscar-pet', (event, termo) => {
+  try {
+    const stmt = db.prepare(`
+      SELECT Pet.*, Tutor.nome AS tutor_nome
+      FROM Pet
+      LEFT JOIN Tutor ON Pet.id_tutor = Tutor.id
+      WHERE Pet.nome LIKE ?
+      ORDER BY Pet.nome ASC
+    `);
+    return stmt.all(`%${termo}%`);
+  } catch (error) {
+    console.error('Erro ao buscar pet:', error.message);
+    return [];
+  }
+});
+
 // ==========================================
 // CANAIS IPC - HISTÓRICO CLÍNICO
 // ==========================================
 
-// Listar histórico clínico de um pet específico
 ipcMain.handle('listar-historico-pet', (event, idPet) => {
   try {
     const stmt = db.prepare(`
@@ -132,7 +204,6 @@ ipcMain.handle('listar-historico-pet', (event, idPet) => {
   }
 });
 
-// Cadastrar novo registro no histórico clínico
 ipcMain.handle('cadastrar-historico', (event, dados) => {
   try {
     const stmt = db.prepare(`
@@ -156,21 +227,6 @@ ipcMain.handle('cadastrar-historico', (event, dados) => {
   }
 });
 
-
-ipcMain.handle('listar-pets', () => {
-  try {
-    const stmt = db.prepare(`
-      SELECT Pet.*, Tutor.nome AS tutor_nome
-      FROM Pet
-      LEFT JOIN Tutor ON Pet.id_tutor = Tutor.id
-      ORDER BY Pet.nome ASC
-    `);
-    return stmt.all();
-  } catch (error) {
-    console.error('Erro ao listar pets:', error.message);
-    return [];
-
-// Excluir um registro do histórico clínico
 ipcMain.handle('excluir-historico', (event, id) => {
   try {
     const stmt = db.prepare('DELETE FROM HistoricoClinico WHERE id = ?');
@@ -181,25 +237,11 @@ ipcMain.handle('excluir-historico', (event, id) => {
     return { success: false, error: error.message };
   }
 });
- }
-});
-// Excluir pet
-ipcMain.handle('excluir-pet', (event, id) => {
-  try {
-    const stmt = db.prepare('DELETE FROM Pet WHERE id = ?');
-    const result = stmt.run(id);
-    return { success: true, changes: result.changes };
-  } catch (error) {
-    console.error('Erro ao excluir pet:', error.message);
-    return { success: false, error: error.message };
-  }
-});
 
 // ==========================================
 // CANAIS IPC - AGENDAMENTO (CONSULTA)
 // ==========================================
 
-// Listar agendamentos com JOIN de Pet e Tutor
 ipcMain.handle('listar-agendamentos', () => {
   try {
     const stmt = db.prepare(`
@@ -223,7 +265,6 @@ ipcMain.handle('listar-agendamentos', () => {
   }
 });
 
-// Criar novo agendamento de consulta
 ipcMain.handle('criar-agendamento', (event, { dia, Horario, sintoma, id_tutor, id_pet, diagnostico }) => {
   try {
     const stmt = db.prepare(`
@@ -245,19 +286,6 @@ ipcMain.handle('criar-agendamento', (event, { dia, Horario, sintoma, id_tutor, i
   }
 });
 
-// Excluir agendamento pelo ID
-ipcMain.handle('excluir-agendamento', (event, id) => {
-  try {
-    const stmt = db.prepare('DELETE FROM Consulta WHERE id_consulta = ?');
-    const result = stmt.run(id);
-    return { success: true, changes: result.changes };
-  } catch (error) {
-    console.error('Erro ao excluir agendamento:', error.message);
-    return { success: false, error: error.message };
-  }
-});
-
-// Editar agendamento
 ipcMain.handle('editar-agendamento', (event, id, { dia, Horario, sintoma, id_tutor, id_pet, diagnostico }) => {
   try {
     const stmt = db.prepare(`
@@ -273,7 +301,21 @@ ipcMain.handle('editar-agendamento', (event, id, { dia, Horario, sintoma, id_tut
   }
 });
 
-// Autenticação de Usuário / Login
+ipcMain.handle('excluir-agendamento', (event, id) => {
+  try {
+    const stmt = db.prepare('DELETE FROM Consulta WHERE id_consulta = ?');
+    const result = stmt.run(id);
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao excluir agendamento:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+
+// ==========================================
+// CANAIS IPC - USUÁRIO / LOGIN
+// ==========================================
+
 ipcMain.handle('login-usuario', (event, { usuario, senha }) => {
   try {
     const stmt = db.prepare('SELECT * FROM Usuario WHERE usuario = ? AND senha = ?');
@@ -281,7 +323,6 @@ ipcMain.handle('login-usuario', (event, { usuario, senha }) => {
     if (user) {
       return { success: true, user };
     }
-    // Fallback padrão se não houver usuários cadastrados
     if (usuario === 'admin' && senha === 'admin') {
       return { success: true, user: { usuario: 'admin', cargo: 'Admin' } };
     }
@@ -294,55 +335,16 @@ ipcMain.handle('login-usuario', (event, { usuario, senha }) => {
   }
 });
 
-// Editar tutor
-ipcMain.handle('editar-tutor', (event, id, tutor) => {
+ipcMain.handle('cadastrar-usuario', (event, { usuario, senha, cargo }) => {
   try {
     const stmt = db.prepare(`
-      UPDATE Tutor 
-      SET nome = ?, telefone = ?, email = ?, cpf = ?, endereco = ?
-      WHERE id = ?
+      INSERT INTO Usuario (usuario, senha, cargo)
+      VALUES (?, ?, ?)
     `);
-    const result = stmt.run(tutor.nome || '', tutor.telefone || '', tutor.email || '', tutor.cpf || '', tutor.endereco || '', id);
-    return { success: true, changes: result.changes };
+    const result = stmt.run(usuario, senha, cargo || 'Funcionario');
+    return { success: true, id: result.lastInsertRowid };
   } catch (error) {
-    console.error('Erro ao editar tutor:', error.message);
-    return { success: false, error: error.message };
-  }
-});
-
-// Excluir tutor
-ipcMain.handle('excluir-tutor', (event, id) => {
-  try {
-    const stmt = db.prepare('DELETE FROM Tutor WHERE id = ?');
-    const result = stmt.run(id);
-    return { success: true, changes: result.changes };
-  } catch (error) {
-    console.error('Erro ao excluir tutor:', error.message);
-    return { success: false, error: error.message };
-  }
-});
-
-// Editar pet
-ipcMain.handle('editar-pet', (event, id, pet) => {
-  try {
-    const stmt = db.prepare(`
-      UPDATE Pet 
-      SET nome = ?, especie = ?, raca = ?, genero = ?, data_nascimento = ?, observacoes = ?, id_tutor = ?
-      WHERE id = ?
-    `);
-    const result = stmt.run(
-      pet.nome || '',
-      pet.especie || 'Cachorro',
-      pet.raca || 'SRD',
-      pet.genero || '',
-      pet.data_nascimento || '',
-      pet.observacoes || '',
-      pet.id_tutor || null,
-      id
-    );
-    return { success: true, changes: result.changes };
-  } catch (error) {
-    console.error('Erro ao editar pet:', error.message);
+    console.error('Erro ao cadastrar usuário:', error.message);
     return { success: false, error: error.message };
   }
 });
