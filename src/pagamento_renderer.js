@@ -1,6 +1,5 @@
 console.log("Pagamento Renderer Carregado!");
 
-
 const formPagamento = document.querySelector('#form-pagamento');
 const selectMetodo = document.querySelector('#metodo');
 const inputValor = document.querySelector('#valor');
@@ -14,6 +13,12 @@ const inputNomeCartao = document.querySelector('#nome-cartao');
 const inputValidadeCartao = document.querySelector('#validade-cartao');
 const inputCvvCartao = document.querySelector('#cvv-cartao');
 const inputChavePix = document.querySelector('#chave-pix');
+
+function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.textContent = str ?? '';
+  return div.innerHTML;
+}
 
 function getPagamentos() {
   const dados = localStorage.getItem('pagamentos');
@@ -36,25 +41,21 @@ function formatarData(data) {
   return `${dia}/${mes}/${ano}`;
 }
 
-
 function formatarDetalhesExtras(pagamento) {
   if (pagamento.metodo === 'Cartão de Crédito' || pagamento.metodo === 'Cartão de Débito') {
-    const numero = pagamento.numeroCartao || '';
-    const final = numero.slice(-4); 
+    const final = pagamento.numeroCartao || '';
     return `Cartão terminado em ${final || '----'}`;
   }
 
   if (pagamento.metodo === 'PIX' && pagamento.chavePix) {
-    return `Chave PIX: ${pagamento.chavePix}`;
+    return `Chave PIX: ${escapeHTML(pagamento.chavePix)}`;
   }
 
   return '';
 }
 
-
 selectMetodo.addEventListener('change', () => {
   const metodo = selectMetodo.value;
-
 
   camposCartao.style.display = 'none';
   camposPix.style.display = 'none';
@@ -66,7 +67,6 @@ selectMetodo.addEventListener('change', () => {
   }
 });
 
-
 function renderizarLista() {
   const pagamentos = getPagamentos();
   lista.innerHTML = '';
@@ -75,36 +75,36 @@ function renderizarLista() {
     lista.innerHTML = '<li>Nenhum pagamento registrado ainda.</li>';
     return;
   }
-  pagamentos.forEach((pagamento, index) => {
+
+  pagamentos.forEach((pagamento) => {
     const detalhesExtras = formatarDetalhesExtras(pagamento);
 
     const li = document.createElement('li');
     li.innerHTML = `
-      <strong>${pagamento.metodo}</strong> —
+      <strong>${escapeHTML(pagamento.metodo)}</strong> —
       ${formatarValor(pagamento.valor)} —
       ${formatarData(pagamento.data)}
       ${detalhesExtras ? `— ${detalhesExtras}` : ''}
-      <button data-index="${index}" class="btn-remover">🗑️ Remover</button>
+      <button data-id="${pagamento.id}" class="btn-remover">🗑️ Remover</button>
     `;
     lista.appendChild(li);
   });
 
   document.querySelectorAll('.btn-remover').forEach(botao => {
     botao.addEventListener('click', (e) => {
-      const idx = e.target.getAttribute('data-index');
-      removerPagamento(idx);
+      const id = e.target.getAttribute('data-id');
+      const confirmar = confirm('Tem certeza que deseja remover este pagamento?');
+      if (confirmar) removerPagamento(id);
     });
   });
 }
 
-
-function removerPagamento(index) {
+function removerPagamento(id) {
   const pagamentos = getPagamentos();
-  pagamentos.splice(index, 1);
-  salvarPagamentos(pagamentos);
+  const novosPagamentos = pagamentos.filter(p => String(p.id) !== String(id));
+  salvarPagamentos(novosPagamentos);
   renderizarLista();
 }
-
 
 formPagamento.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -118,17 +118,26 @@ formPagamento.addEventListener('submit', (e) => {
     return;
   }
 
-  const novoPagamento = { metodo, valor, data };
+  if (Number(valor) <= 0) {
+    alert('O valor do pagamento deve ser maior que zero.');
+    return;
+  }
 
+  const novoPagamento = {
+    id: Date.now(),
+    metodo,
+    valor,
+    data
+  };
 
- if (metodo === 'Cartão de Crédito' || metodo === 'Cartão de Débito') {
-  novoPagamento.numeroCartao = inputNumeroCartao.value.slice(-4); // só os últimos 4 dígitos
-  novoPagamento.nomeCartao = inputNomeCartao.value;
-  novoPagamento.validadeCartao = inputValidadeCartao.value;
-  // CVV não pode ser armazenado por questões de segurança
-} else if (metodo === 'PIX') {
-  novoPagamento.chavePix = inputChavePix.value;
-}
+  if (metodo === 'Cartão de Crédito' || metodo === 'Cartão de Débito') {
+    novoPagamento.numeroCartao = inputNumeroCartao.value.slice(-4);
+    novoPagamento.nomeCartao = inputNomeCartao.value;
+    novoPagamento.validadeCartao = inputValidadeCartao.value;
+    // CVV não pode ser armazenado por questões de segurança
+  } else if (metodo === 'PIX') {
+    novoPagamento.chavePix = inputChavePix.value;
+  }
 
   const pagamentos = getPagamentos();
   pagamentos.push(novoPagamento);
@@ -136,7 +145,6 @@ formPagamento.addEventListener('submit', (e) => {
 
   renderizarLista();
   formPagamento.reset();
-
 
   camposCartao.style.display = 'none';
   camposPix.style.display = 'none';
