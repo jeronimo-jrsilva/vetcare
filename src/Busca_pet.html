@@ -13,54 +13,55 @@
 </head>
 <body>
   <a href="index.html">⬅️ Voltar ao Menu</a>
-  <h1>🗂️ Histórico Clínico</h1>
 
-  <form action="/pesquisa" method="GET">
-    <input type="search" name="q" placeholder="Pesquisar..." required>
-    <button type="submit">Buscar</button>
-  </form>
+  <main>
+    <h1>🗂️ Histórico Clínico</h1>
 
-  <h2 style="margin-top: 20px;">Adicionar Registro</h2>
-  <form id="form-historico">
-    <label for="tipo">Tipo de registro</label>
-    <select id="tipo" required>
-      <option value="Consulta">Consulta</option>
-      <option value="Vacina">Vacina</option>
-      <option value="Exame">Exame</option>
-      <option value="Cirurgia">Cirurgia</option>
-      <option value="Medicação">Medicação</option>
-      <option value="Outro">Outro</option>
+    <label for="pet-select">Selecione o pet</label>
+    <select id="pet-select" required></select>
 
-    <label for="data">Data</label>
-    <input type="date" id="data" required>
+    <h2 style="margin-top: 20px;">Adicionar Registro</h2>
+    <form id="form-historico">
+      <label for="tipo">Tipo de registro</label>
+      <select id="tipo" required>
+        <option value="Consulta">Consulta</option>
+        <option value="Vacina">Vacina</option>
+        <option value="Exame">Exame</option>
+        <option value="Cirurgia">Cirurgia</option>
+        <option value="Medicação">Medicação</option>
+        <option value="Outro">Outro</option>
+      </select>
 
-    <label for="descricao">Descrição</label>
-    <input type="text" id="descricao" placeholder="Ex: Vacina antirrábica aplicada">
+      <label for="data">Data</label>
+      <input type="date" id="data" required>
 
-    <div class="grid">
-      <div>
-        <label for="peso">Peso do pet (kg)</label>
-        <input type="number" id="peso" step="0.01" min="0" placeholder="Ex: 12.5">
+      <label for="descricao">Descrição</label>
+      <input type="text" id="descricao" placeholder="Ex: Vacina antirrábica aplicada">
+
+      <div class="grid">
+        <div>
+          <label for="peso">Peso do pet (kg)</label>
+          <input type="number" id="peso" step="0.01" min="0" placeholder="Ex: 12.5">
+        </div>
+        <div>
+          <label for="medicamento_usado">Medicamento usado</label>
+          <input type="text" id="medicamento_usado" placeholder="Ex: Amoxicilina 250mg">
+        </div>
       </div>
-      <div>
-        <label for="medicamento_usado">Medicamento usado</label>
-        <input type="text" id="medicamento_usado" placeholder="Ex: Amoxicilina 250mg">
-      </div>
-    </div>
 
-    <label for="veterinario">Veterinário responsável</label>
-    <input type="text" id="veterinario" placeholder="Ex: Dr. Carlos Silva">
+      <label for="veterinario">Veterinário responsável</label>
+      <input type="text" id="veterinario" placeholder="Ex: Dr. Carlos Silva">
 
-    <label for="observacoes">Observações</label>
-    <input type="text" id="observacoes" placeholder="Ex: Retorno em 15 dias">
+      <label for="observacoes">Observações</label>
+      <input type="text" id="observacoes" placeholder="Ex: Retorno em 15 dias">
 
-    <button type="submit">Adicionar ao histórico</button>
-  </form>
+      <button type="submit">Adicionar ao histórico</button>
+    </form>
 
-  <h2 style="margin-top: 30px; font-size: 1.3rem;">Registros do Pet</h2>
-  <ul id="lista-historico"></ul>
+    <h2 style="margin-top: 30px; font-size: 1.3rem;">Registros do Pet</h2>
+    <ul id="lista-historico"></ul>
+  </main>
 
-  <script src="busca_pet_renderer.js"></script>
+  <script src="historico_renderer.js"></script>
 </body>
 </html>
-
