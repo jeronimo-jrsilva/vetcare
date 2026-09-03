@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const db = require('./database/conexao');
-
+const { hashSenha, verificarSenha, criptografarCampo, descriptografarCampo, hashBuscaCpf } = require('./src/utils/crypto');
 let mainWindow;
 
 function createWindow() {
