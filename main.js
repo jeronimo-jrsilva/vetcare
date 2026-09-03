@@ -54,15 +54,19 @@ ipcMain.handle('listar-tutores', () => {
 
 ipcMain.handle('cadastrar-tutor', (event, tutor) => {
   try {
+    const cpfCriptografado = criptografarCampo(tutor.cpf);
+    const cpfHash = hashBuscaCpf(tutor.cpf);
+
     const stmt = db.prepare(`
-      INSERT INTO Tutor (nome, telefone, email, cpf, endereco)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO Tutor (nome, telefone, email, cpf, cpf_hash, endereco)
+      VALUES (?, ?, ?, ?, ?, ?)
     `);
     const result = stmt.run(
       tutor.nome || '',
       tutor.telefone || '',
       tutor.email || '',
-      tutor.cpf || '',
+      cpfCriptografado,
+      cpfHash,
       tutor.endereco || ''
     );
     return { success: true, id: result.lastInsertRowid };
@@ -255,6 +259,18 @@ ipcMain.handle('excluir-historico', (event, id) => {
     return { success: true, changes: result.changes };
   } catch (error) {
     console.error('Erro ao excluir histórico:', error.message);
+    return { success: false, error: error.message };
+  }
+});
+ 
+// Excluir pet
+ipcMain.handle('excluir-pet', (event, id) => {
+  try {
+    const stmt = db.prepare('DELETE FROM Pet WHERE id = ?');
+    const result = stmt.run(id);
+    return { success: true, changes: result.changes };
+  } catch (error) {
+    console.error('Erro ao excluir pet:', error.message);
     return { success: false, error: error.message };
   }
 });
