@@ -41,7 +41,11 @@ app.on('window-all-closed', () => {
 ipcMain.handle('listar-tutores', () => {
   try {
     const stmt = db.prepare('SELECT * FROM Tutor ORDER BY nome ASC');
-    return stmt.all();
+    const tutores = stmt.all();
+    return tutores.map(t => ({
+      ...t,
+      cpf: descriptografarCampo(t.cpf),
+    }));
   } catch (error) {
     console.error('Erro ao listar tutores:', error.message);
     return [];
