@@ -39,16 +39,16 @@ CREATE TABLE IF NOT EXISTS "Usuario" (
     "senha" TEXT NOT NULL,
     "cargo" TEXT DEFAULT 'Funcionario'
 );
-CREATE TABLE IF NOT EXISTS'HistoricoClinico '(
-    'id' INTEGER PRIMARY KEY AUTOINCREMENT,
-    'id_pet' INTEGER NOT NULL,
-    'data' TEXT NOT NULL,
-    'tipo' TEXT NOT NULL,
-    'descricao' TEXT,
-    'peso' REAL,
-   'medicamento_usado' TEXT,
-    'veterinario' TEXT,
-    'observacoes' TEXT,
-    FOREIGN KEY ('id_pet') REFERENCES 'Pet'('id')
+CREATE TABLE IF NOT EXISTS "HistoricoClinico" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_pet" INTEGER NOT NULL,
+    "data" TEXT NOT NULL,
+    "tipo" TEXT NOT NULL,
+    "descricao" TEXT,
+    "peso" REAL,
+    "medicamento_usado" TEXT,
+    "veterinario" TEXT,
+    "observacoes" TEXT,
+    FOREIGN KEY ("id_pet") REFERENCES "Pet"("id")
 );
 INSERT OR IGNORE INTO "Usuario" ("usuario", "senha", "cargo") VALUES ('admin', '1234', 'Admin');
