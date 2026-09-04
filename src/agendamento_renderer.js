@@ -32,22 +32,45 @@ async function carregarTutores() {
 }
 
 // Preenche o <select> de pets
+// Variável para guardar TODOS os pets já carregados do banco
+let todosPets = [];
+
+// Preenche o <select> de pets, filtrando pelo tutor selecionado
 async function carregarPets() {
   if (!selectPet) return;
   try {
-    const pets = await window.api.listarPets();
-    if (!pets || pets.length === 0) {
-      selectPet.innerHTML = '<option value="">Nenhum pet encontrado (cadastre um primeiro)</option>';
-      return;
-    }
-    selectPet.innerHTML = pets
-      .map(p => `<option value="${p.id}">${escapeHTML(p.nome)} (${escapeHTML(p.especie || 'Pet')} • ${escapeHTML(p.raca || 'SRD')})</option>`)
-      .join('');
+    todosPets = await window.api.listarPets();
+    atualizarSelectPets();
   } catch (err) {
     console.error("Erro ao carregar pets:", err);
   }
 }
 
+// Filtra os pets já carregados de acordo com o tutor escolhido
+function atualizarSelectPets() {
+  if (!selectPet) return;
+
+  const idTutorSelecionado = selectTutor.value;
+
+  if (!idTutorSelecionado) {
+    selectPet.innerHTML = '<option value="">Selecione um tutor primeiro</option>';
+    return;
+  }
+
+  const petsDoTutor = todosPets.filter(p => String(p.id_tutor) === String(idTutorSelecionado));
+
+  if (petsDoTutor.length === 0) {
+    selectPet.innerHTML = '<option value="">Este tutor não possui pets cadastrados</option>';
+    return;
+  }
+
+  selectPet.innerHTML = petsDoTutor
+    .map(p => `<option value="${p.id}">${escapeHTML(p.nome)} (${escapeHTML(p.especie || 'Pet')} • ${escapeHTML(p.raca || 'SRD')})</option>`)
+    .join('');
+}
+
+// Sempre que o tutor mudar, re-filtra os pets
+selectTutor?.addEventListener('change', atualizarSelectPets);
 // Lista as consultas já agendadas, com botões de editar/excluir
 async function carregarAgendamentos() {
   if (!listaAgendamentos) return;
